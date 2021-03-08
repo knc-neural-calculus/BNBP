@@ -4,9 +4,9 @@
 #include <fstream>
 #include <random>
 
-#include "hh.h"
-#include "ml.h"
-#include "san.h"
+#include "neuron_models/hh.h"
+#include "neuron_models/ml.h"
+#include "neuron_models/san.h"
 
 typedef HH Neuron;
 
