@@ -20,7 +20,7 @@
 #include <cstdint>
 #include <memory>
 
-#include "mnist_reader_common.hpp"
+#include "_common.hpp"
 
 namespace mnist {
 

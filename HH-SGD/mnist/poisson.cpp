@@ -1,5 +1,5 @@
 #include "poisson_mnist.h"
-#include "mnist/mnist_reader.hpp"
+#include ".hpp"
 
 int main (int argc, char** argv) 
 {

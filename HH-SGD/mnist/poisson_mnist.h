@@ -1,6 +1,7 @@
-#include "backprop.h"
 #include <random>
 #include <fstream>
+
+#include "../backprop.h"
 
 // Class used to convert an MNIST image into a poisson distribution.
 // Also supports writing this to a file.

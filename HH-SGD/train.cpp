@@ -1,9 +1,10 @@
 #define DO_SAVE_WEIGHTS
 
-#include "read_n_mnist.h"
-#include "poisson_mnist.h"
-#include "mnist/mnist_reader.hpp"
 #include <fstream>
+
+#include "mnist/read_n_mnist.h"
+#include "mnist/poisson_mnist.h"
+#include "mnist/mnist_reader.hpp"
 
 std::vector<uint8_t> ReadLabels (std::string fl_name)
 {

@@ -4,8 +4,8 @@
 
 #include <unordered_map>
 #include "configer.h"
-#include "read_n_mnist.h"
-#include "poisson_mnist.h"
+#include "mnist/read_n_mnist.h"
+#include "mnist/poisson_mnist.h"
 #include "mnist/mnist_reader.hpp"
 
 int main (int argc, char** argv) 

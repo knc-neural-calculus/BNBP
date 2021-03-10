@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
-#include "backprop.h"
+
+#include "../backprop.h"
 
 // I found this to be the max size of one of the event streams.
 #define __N_MNIST_ALLOC_MAX__ 9000

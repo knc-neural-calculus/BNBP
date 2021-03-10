@@ -1,5 +1,5 @@
 #include "read_n_mnist.h"
-#include "mnist/mnist_reader.hpp"
+#include "mnist_reader.hpp"
 
 int main () 
 {
