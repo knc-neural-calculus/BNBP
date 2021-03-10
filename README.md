@@ -31,6 +31,16 @@ Requirements:
 
 
 
+# using [python-fire](https://google.github.io/python-fire/)
+- to see the list of functions availible in a module, do 
+  ```python file_name.py --help```
+- to get help about a specific function/command within a module, do
+  ```python file_name.py COMMAND -- --help```
+  (the standalone `--` acts as a separator)
+- f
+
+
+
 
 
 

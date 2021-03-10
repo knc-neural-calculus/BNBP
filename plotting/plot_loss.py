@@ -8,12 +8,10 @@ import matplotlib.pyplot as plt
 class LossPlotters(object):
 
 	@staticmethod
-	def plot_loss(dirname : str, verbose : bool = True, show : bool = True):
-		"""### plot_loss
-		
-		plot the loss for a single run. if a file is not found, function will print a warning and do nothing
+	def single(dirname : str, verbose : bool = True, show : bool = True):
+		"""plot the loss for a single run. if a file is not found, function will print a warning and do nothing
 				
-		### Parameters:
+		# Parameters:
 		 - `dirname : str`   
 		   directory to look for `loss.txt` in
 		 - `verbose : bool`   
@@ -46,12 +44,10 @@ class LossPlotters(object):
 			
 
 	@staticmethod
-	def plot_loss_all_in_dir(rootdir : str = '../../data/', verbose : bool = True):
-		"""### plot_loss_all_in_dir
-		
-		given a directory full of run data, plot the loss for each of those runs
+	def multi(rootdir : str = '../../data/', verbose : bool = True):
+		"""given a directory full of run data, plot the loss for each of those runs
 				
-		### Parameters:
+		# Parameters:
 		 - `rootdir : str`   
 		   searches every directory in this directory for loss files
 		   (defaults to `'../../data/'`)
@@ -67,7 +63,7 @@ class LossPlotters(object):
 		
 		for d in dirnames:
 			print('\t' + d)
-			LossPlotters.plot_loss(d, verbose = verbose, show = False)
+			LossPlotters.single(d, verbose = verbose, show = False)
 
 		plt.legend()
 		plt.show()
