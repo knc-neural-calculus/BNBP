@@ -110,7 +110,7 @@ def read_single_folder(d, keys_map = CONFIG_KEYS_MAP) -> Dict[str, Any]:
 
 
 
-def read_all_data(datadir = '../../../psweep_data/', rem_cols = None, run_ID = ''):
+def read_all_data(datadir : str = '../../../psweep_data/', rem_cols : List[str] = None, run_ID : str = ''):
 	# get directories
 	# dirnames = [join(datadir, f) + '/' for f in listdir(datadir) if isdir(join(datadir, f)) and f[0] == sys.argv[1][0]]
 	dirnames = [ x + '/' for x in glob.glob(datadir + run_ID + '_*') if isdir(x) ]
@@ -147,11 +147,31 @@ def read_all_data(datadir = '../../../psweep_data/', rem_cols = None, run_ID = '
 	return df	
 
 
-def read_and_save(filename, datadir = '../../../psweep_data/', rem_cols = None, run_ID = ''):
-	df = read_all_data(datadir, rem_cols, run_ID)
-	df.to_pickle(filename)
+def read_and_save(run_ID = '', datadir = '../../../psweep_data/', file_save : Optional[str] = None, rem_cols : List[str] = None) -> pd.DataFrame:
+	"""reads runs matching `run_ID` and saves them to a pandas dataframe
+	
+	# Parameters:
+	 - `run_ID : str`   
+	   will look for run folders matching `{run_ID}_{n}`
+	   (defaults to `''`)
+	 - `datadir : str`   
+	   folder in which to look for the data
+	   (defaults to `'../../../psweep_data/'`)
+	 - `file_save : Optional[str]`   
+	   where to pickle the pandas dataframe into. if no value given, set to `'data_{run_ID}.df'`
+	   (defaults to `None`)
+	 - `rem_cols : List[str]`   
+	   columns to remove
+	   (defaults to `None`)
 
-	return df
+	# Modifies
+	 - saves the dataframe as a pickle file into `file_save`
+	"""
+	if file_save is None:
+		file_save = f'data_{run_ID}.df'
+
+	df = read_all_data(datadir, rem_cols, run_ID)
+	df.to_pickle(file_save)
 
 
 def main(argv = sys.argv):
@@ -174,5 +194,6 @@ def main(argv = sys.argv):
 	read_and_save(filename, datadir, rem_cols = None, run_ID = run_ID)
 
 if __name__ == "__main__":
-	main(sys.argv)
+	import fire
+	fire.Fire(read_and_save)
 	
