@@ -1,7 +1,10 @@
+import sys
 from typing import *
 from copy import deepcopy
 from itertools import product
-import sys
+
+sys.path.append("..")
+sys.path.append("HH-SGD")
 
 from psweep.psweep import *
 

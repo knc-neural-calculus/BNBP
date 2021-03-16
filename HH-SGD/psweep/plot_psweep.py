@@ -1,17 +1,22 @@
 import os
 import sys
 import math
+from typing import *
 from types import FunctionType
 
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from typing import *
+
+sys.path.append("..")
+sys.path.append("HH-SGD")
+
+from psweep.psweep import *
+
 
 def fcomp(a,b,delta = 1e-5):
 	return abs(a-b) < delta
 
-from psweep import *
 
 def load_pickled(filename = 'data.df'):
 	return pd.read_pickle(filename)
@@ -70,7 +75,7 @@ def compute_ranges(
 
 
 
-def save_sorted(df, basepath = ''):
+def save_sorted_many(df, basepath = ''):
 	pd.set_option('display.max_rows', None)
 	pd.set_option('display.max_columns', 50)
 	pd.set_option('display.width', None)
@@ -85,8 +90,9 @@ def save_sorted(df, basepath = ''):
 	with open(basepath + 'test_acc.txt', 'w') as fout:
 		print(df.sort_values('TEST_ACCURACY'), file=fout)
 
-
-
+def save_sorted(df : pd.DataFrame, path : str = '', sort_col : str = 'TEST_ACCURACY'):
+	with open(path, 'w') as fout:
+		print(df.sort_values(sort_col), file=fout)
 
 
 def plot_pair_heatmap(
@@ -95,7 +101,7 @@ def plot_pair_heatmap(
 		others,
 		ranges = None,
 		# defaults = None,
-		loss_mode = 'LOSS_REL',
+		accuracy_mode = 'LOSS_REL',
 	):
 
 	if ranges is None:
@@ -121,7 +127,7 @@ def plot_pair_heatmap(
 
 	# only need 1 type of loss
 	for lt in LOSS_TYPES:
-		if lt != loss_mode:
+		if lt != accuracy_mode:
 			del data[lt]
 	
 	data_im = np.full(
@@ -137,7 +143,7 @@ def plot_pair_heatmap(
 			temp = data.loc[
 				fcomp(data[X], x)
 				& fcomp(data[Y], y)
-			][loss_mode]
+			][accuracy_mode]
 
 			if temp.empty:
 				data_im[j,i] = np.nan
@@ -152,7 +158,7 @@ def plot_pair_heatmap(
 	fig, ax = plt.subplots()
 	im = ax.imshow(data_im, cmap="inferno")
 	cbar = plt.colorbar(im)
-	cbar.ax.set_ylabel(loss_mode, rotation=-90, va="bottom")
+	cbar.ax.set_ylabel(accuracy_mode, rotation=-90, va="bottom")
 
 	# We want to show all ticks...
 	ax.set_xticks(np.arange(len(x_vals)))
@@ -203,7 +209,7 @@ def main(argv = sys.argv):
 	if os.path.isfile(filename):
 		df = pd.read_pickle(filename)
 	else:
-		from psweep_load import read_and_save
+		from psweep.psweep_load import read_and_save
 		df = read_and_save(filename)
 
 	mx = 0.0
@@ -220,14 +226,109 @@ def main(argv = sys.argv):
 		plot_pair_heatmap(
 			df, 'LF_OUT', 'LF_HIDDEN',
 			others = {},
-			loss_mode = 'TEST_ACCURACY',
+			accuracy_mode = 'TEST_ACCURACY',
 		)
 	elif mode == 'table':
 		save_sorted(df, os.path.dirname(filename) + '/')
 	elif mode == 'cr':
 		print(compute_ranges(df))
-		
+
+
+def dynamic_load(filename : str, verbose : bool = True):
+	df = None
+	if os.path.isfile(filename):
+		df = pd.read_pickle(filename)
+	else:
+		from psweep.psweep_load import read_and_save
+		df = read_and_save(filename)
+
+	if verbose:
+		# REVIEW: what exactly does this do?
+		mx = 0.0
+		mx_i = 0
+		for i, v in enumerate(df['TEST_ACCURACY']):
+			if v > mx:
+				mx = v 
+				mx_i = i 
+
+		print(df)
+		print(mx, df['DIRNAME'][mx_i])
+
+	return df
+
+
+def main_hm(filename : str = 'data.df', X : str = 'LF_OUT', Y : str = 'LF_HIDDEN', accuracy_mode : str = 'TEST_ACCURACY'):
+	"""plots a heatmap of the accuracy (`accuracy_mode`) dependent on `X,Y`
+	
+	# Parameters:
+	 - `filename : str`   
+	   pandas dataframe pickle file to look for. if not found, will try to generate and save it
+	   (defaults to `'data.df'`)
+	 - `X : str`   
+	   X axis variable for the heatmap. make sure that the specified dataframe file actually has this as a variable
+	   (defaults to `'LF_OUT'`)
+	 - `Y : str`   
+	   Y axis variable for the heatmap. make sure that the specified dataframe file actually has this as a variable
+	   (defaults to `'LF_HIDDEN'`)
+	 - `accuracy_mode : str`   
+	   the accuracy measure to plot on the heatmap
+	   (defaults to `'TEST_ACCURACY'`)
+	"""
+	df = dynamic_load(filename)
+
+	plot_pair_heatmap(
+		data = df, 
+		X = X, Y = Y,
+		others = {},
+		accuracy_mode = accuracy_mode,
+	)
+
+
+def main_table(filename : str = 'data.df', sort_col : str = 'TEST_ACCURACY', save_path = None):
+	"""outputs a table of the data from the given dataframe, sorted by `sort_col`
+	
+	# Parameters:
+	 - `filename : str`   
+	   pandas dataframe pickle file to look for. if not found, will try to generate and save it
+	   (defaults to `'data.df'`)
+	 - `sort_col : str`   
+	   [description]
+	   (defaults to `'TEST_ACCURACY'`)
+	 - `save_path : str`
+	   text file where the table should be saved. if `None`, saves to 
+	   	`filename.split('.')[:-1] + '_' + sort_col + '.txt'`
+	   (defaults to `None`)
+	"""
+	if save_path is None:
+		save_path = filename.split('.')[:-1] + '_' + sort_col + '.txt'
+
+	df : pd.DataFrame = dynamic_load(filename)
+	save_sorted(df, path = save_path, sort_col = sort_col)
 
 
 
-main()
+def main_cr(filename : str = 'data.df'):
+	"""prints the ranges for the variables in the dataframe
+	
+	# Parameters:
+	 - `filename : str`   
+	   pandas dataframe pickle file to look for. if not found, will try to generate and save it
+	   (defaults to `'data.df'`)
+	"""
+	df : pd.DataFrame = dynamic_load(filename)
+	print(compute_ranges(df))
+
+
+MAIN_FUNCS = {
+	'heatmap' : main_hm,
+	'hm' : main_hm,
+	'table' : main_table,
+	'compute_ranges' : main_cr,
+	'cr' : main_cr,
+}
+
+if __name__ == '__main__':
+	import fire
+	fire.Fire(MAIN_FUNCS)
+
+

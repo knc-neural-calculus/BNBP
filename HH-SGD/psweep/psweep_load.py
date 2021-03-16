@@ -12,7 +12,9 @@ from typing import *
 def fcomp(a,b,delta = 1e-5):
 	return abs(a-b) < delta
 
-from psweep import *
+sys.path.append("..")
+sys.path.append("HH-SGD")
+from psweep.psweep import *
 
 
 
