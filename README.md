@@ -39,7 +39,9 @@ Requirements:
   (the standalone `--` acts as a separator)
 - f
 
-
+# generating documentation
+uses pdoc3, install using `pip install pdco3`  
+to build documentation, run `pdoc --html . -o docs`
 
 
 
