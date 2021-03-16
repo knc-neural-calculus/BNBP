@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>BNBP-public.HH-SGD.sweep_nevergrad API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>BNBP-public.HH-SGD.sweep_nevergrad</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from os import listdir, system
+from os.path import isfile, join
+import sys
+from typing import *
+from copy import deepcopy
+from time import sleep
+from concurrent import futures
+
+from hashlib import md5
+import numpy as np
+import nevergrad as ng
+
+import psweep.psweep as ps
+from psweep.gen_configs import dict_to_string,collapse_dict
+
+Num = Union[float,int]
+
+# interval (seconds) between checking that the training is done
+WALLTIME_WAIT : float = 1.0
+# maximum steps of `WALLTIME_WAIT` before aborting
+WALLTIME_LIMIT : int = 10000
+
+# GLOBAL_ID_COUNTER = 1
+
+SWEEP_TYPE_TO_NG_FUNC = {
+        &#39;scalar&#39; : ng.p.Scalar,
+        &#39;log&#39; : ng.p.Log,
+}
+
+
+
+def read_cmd(
+                argv : List[str],
+                alias : Dict[str,str] = dict(),
+                defaults : Dict[str,str] = dict(),
+                typecast : Dict[str, Callable[[str], Any]] = dict(),
+                to_strip : str = &#39;-&#39;,
+                splitchar : str = &#39;=&#39;,
+        ) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;parses command line args
+
+        splits a list of strings &#39;--flag=val&#39; with combined flags and args
+        into a dict: `{&#39;flag&#39; : &#39;val&#39;}` (lstrips the dashes)
+
+        if flag &#39;flag&#39; passed without value returns for that flag: `{&#39;flag&#39; : True}`
+
+        Args:
+                argv (List[str]): input argument list
+                alias (Dict[str,str], optional): aliases for shorthand of flags. Defaults to dict().
+                defaults (Dict[str,str], optional): default values. Defaults to dict().
+                typecast (Dict[str, Callable[[str], Any]], optional): callables to apply to the given flags (and their aliases). Defaults to dict().
+                to_strip (str, optional): this will be stripped from start of every argument. Defaults to &#39;-&#39;.
+                splitchar (str, optional): separator beteen flag and value. Defaults to &#39;=&#39;.
+
+        Raises:
+                KeyError: if flag passed more than once (given aliases)
+
+        Returns:
+                Dict[str, Any]: flags mapping to their values. aliases handled through duplication of values, callables applied to all variants
+        &#34;&#34;&#34;
+
+        output = deepcopy(defaults)
+                
+        # read the flags
+        for x in argv:
+                x = x.lstrip(to_strip)
+                pair = x.split(splitchar,1)
+                if len(pair) &lt; 2:
+                        pair = pair + [True]
+
+                if (pair[0] not in output) or (pair[0] in defaults):
+                        output[pair[0]] = pair[1]
+                else:
+                        raise KeyError(
+                                &#39;same flag passed more than once:\t%s&#39;
+                                % (pair[0])
+                        )
+
+        # make copies for aliases
+        copied_aliases = dict()
+        for key,val in output.items():
+                if key in alias:
+                        if (alias[key] in output) and (key in defaults and output[alias[key]] != defaults[key]):
+                                raise KeyError(
+                                        &#39;same flag passed more than once (alias):\t%s,\t%s&#39;
+                                        % (key, alias[key])
+                                )
+                        else:
+                                copied_aliases[alias[key]] = val
+        output.update(copied_aliases)
+
+        # invert aliases to convert all types
+        aliases_inv : Dict[str,Set[str]] = dict()
+        for key,val in alias.items():
+                if val in aliases_inv:
+                        aliases_inv[val].add(key)
+                else:
+                        aliases_inv[val] = set((key, val))
+
+
+        # cast types
+        for key,func in typecast.items():
+                for k2 in aliases_inv[key]:
+                        if k2 in output:
+                                output[k2] = func(output[k2])
+
+        return output
+
+
+
+def list_to_bounding_kwargs(lst : List[Num]) -&gt; Dict[str,Num]:
+        return {
+                &#39;lower&#39; : min(lst),
+                &#39;upper&#39; : max(lst)
+        }
+
+
+def setup_instr(
+                ranges : Dict[str,List[float]] = ps.CONSTS_RANGES,
+                sweep_type : Dict[str,str] = ps.CONSTS_SWEEP_TYPE,
+        ) -&gt; ng.p.Instrumentation:
+
+        # init dict
+        out_kwargs = dict()
+        
+        # each key is the name of a variable we want to pass to ng
+        for key in ranges:
+                # ngFunc takes a lower and upper bound,
+                # and returns an object that is to be passed to ng.p.Instrumentation
+                ngFunc = SWEEP_TYPE_TO_NG_FUNC[sweep_type[key]]
+                # give ngFunc those bounds, and store in dict
+                kw_temp = list_to_bounding_kwargs(ranges[key])
+                out_kwargs[key] = ngFunc(**kw_temp)
+        
+        # pass that dict of objects to the constructor
+        return ng.p.Instrumentation(**out_kwargs)
+
+
+
+
+def create_config(
+                params : Dict[str, Num],
+                run_ID : str,
+                cfg_dir : str,
+                default_data : ps.cn_Dict = ps.CONSTS_DEFAULT,
+                default_order : Sequence[ps.t_Key] = ps.CONSTS_DEFAULT_KEYS,
+        ) -&gt; str:
+
+        # read defaults, update with given values
+        c = deepcopy(default_data)
+        c.update(params)
+
+        c[&#39;RUN_ID&#39;] = run_ID
+
+        c[&#39;CONFIG_ID&#39;] = &#39;NULL&#39;
+        c[&#39;DIRNAME&#39;] = &#39;NULL&#39;
+
+        hexdig = md5(str(collapse_dict(c, default_order)).encode(&#39;utf-8&#39;)).hexdigest()
+        cfg_ID = str( int(hexdig, 16) % int(10**ps.LEN_ID) )
+        # print(&#39;CONFIG_ID:\t&#39; + cfg_ID)
+        c[&#39;CONFIG_ID&#39;] = cfg_ID
+        # create filename
+        fname = &#39;%s_ID%s&#39; % (c[&#39;RUN_ID&#39;], c[&#39;CONFIG_ID&#39;])
+        c[&#39;DIRNAME&#39;] = fname
+        fname = cfg_dir + fname + &#39;.txt&#39;
+
+        # convert each combo to string and save
+        with open(fname, &#39;w&#39;) as fout:
+                print(
+                        dict_to_string(c, default_data, default_order),
+                        file = fout,
+                )
+        # print(&#39;&gt; created file:\t&#39; + fname)
+
+        return cfg_ID
+
+
+
+def run_on_config_sbatch(
+                cfg_ID : str,
+                run_ID : str,
+                cfg_dir : str,
+        ) -&gt; None:
+
+        cmd = &#34;sbatch --job-name=HH_&#34; + run_ID + &#34;_ID&#34; + cfg_ID + &#34; myJobIndividual.sh &#34;
+        cmd += &#34; &#34; + str(cfg_ID)
+        cmd += &#34; &#34; + str(cfg_ID)
+        cmd += &#34; &#34; + run_ID
+
+        # print(&#39;CALLING:\t&#39; + cmd)
+        system(cmd)
+
+
+def run_on_config_basic(
+                cfg_ID : str,
+                run_ID : str,
+                cfg_dir : str,
+        ):
+
+        cmd = &#34;./hh_psweep 1 {cfg_ID} {run_ID}&#34;.format(cfg_ID = cfg_ID, run_ID = run_ID)
+        print(&#39;CALLING:\t&#39; + cmd)
+        system(cmd)
+
+
+def read_accuracy(
+                dirname : str,
+        ):
+
+#       print(&#39;&gt; reading file:\t&#39;)
+
+        i = 0
+        while not isfile(dirname + &#39;DONE.txt&#39;):
+                if i &gt; WALLTIME_LIMIT:
+                        print(&#39;\n\n\nABORTING: process took too long. returning accuracy of 0 \n%s&#39; % dirname)
+                        return 0.0
+
+                # print(&#39;waiting...\ti=\t%i&#39; % i, end = &#39;\r&#39;)
+                sleep(WALLTIME_WAIT)
+                i += 1 
+
+#       print(&#39;\n&gt; found file!&#39;)
+
+        try:
+                data = np.genfromtxt(dirname + &#39;percent0.txt&#39;)
+        except ValueError:
+                return 0.0
+        
+        accuracy = data[-1, -1]
+
+        print(&#39;&gt; dirname:\t%s\n\taccuracy:\t%s&#39; % (dirname, str(accuracy)))
+
+        return accuracy
+
+
+def read_loss(
+                dirname : str,
+                last_n : int = 5,
+        ):
+
+        # print(&#39;&gt; reading file:\t&#39;)
+
+        i = 0
+        while not isfile(dirname + &#39;DONE.txt&#39;):
+                if i &gt; WALLTIME_LIMIT:
+                        print(&#39;\n\n\nABORTING: process took too long. returning NAN loss \n%s&#39; % dirname)
+                        return float(&#39;nan&#39;)
+
+                # print(&#39;waiting...\ti=\t%i&#39; % i, end = &#39;\r&#39;)
+                sleep(WALLTIME_WAIT)
+                i += 1 
+
+        # print(&#39;\n&gt; found file!&#39;)
+
+        try:
+                data = np.genfromtxt(dirname + &#39;loss.txt&#39;, delimiter=&#39;,&#39;)
+        except ValueError:
+                return float(&#39;nan&#39;)
+
+        try:
+                data = data[:,:-1]
+        except:
+                return float(&#39;nan&#39;)
+        
+        avg_final_loss = np.average(data[-last_n:])
+
+        print(&#39;&gt; dirname:\t%s\n\tloss:\t%s&#39; % (dirname, str(avg_final_loss)))
+
+        return avg_final_loss
+
+
+def eval_parameter_set(
+                params : Dict[str, Num],
+                run_ID : str = &#39;NG_CROSS&#39;,
+                cfg_dir : str = &#39;psweep/config/&#39;,
+                default_data : dict = ps.CONSTS_DEFAULT,
+        default_order : Sequence = ps.CONSTS_DEFAULT_KEYS,
+        ):
+
+        # create the config file
+        cfg_ID = create_config(
+                params = params,
+                run_ID = run_ID,
+                cfg_dir = cfg_dir,
+                default_data = default_data,
+                default_order = default_order,
+        )
+
+        # run the C++ code
+        # run_on_config(
+        run_on_config_sbatch(
+                cfg_ID = cfg_ID,
+                run_ID = run_ID,
+                cfg_dir = cfg_dir,
+        )
+
+        # read the output accuracy
+#       loss = read_loss(&#39;../../psweep_data/{run_ID}_ID{cfg_ID}/&#39;.format(cfg_ID = cfg_ID, run_ID = run_ID))
+        percent = read_accuracy(&#39;../../psweep_data/{run_ID}_ID{cfg_ID}/&#39;.format(cfg_ID = cfg_ID, run_ID = run_ID))
+        return 100 - percent
+
+
+def eval_wrapper(**kwargs):
+        loss = eval_parameter_set(
+                params = kwargs,
+        )
+        return loss
+
+
+def run_nevergrad(argv : List[str]):
+        global NG_BUDGET
+        global WALLTIME_WAIT
+        global WALLTIME_LIMIT
+        global NG_WORKERS
+
+        cmds = read_cmd(
+                argv,
+                alias = {
+                        &#39;b&#39; : &#39;budget&#39;,
+                        &#39;w&#39; : &#39;walltime-wait&#39;,
+                        &#39;L&#39; : &#39;walltime-limit&#39;,
+                        &#39;n&#39; : &#39;num-workers&#39;,
+                },
+                typecast = {
+                        &#39;budget&#39; : int,
+                        &#39;walltime-wait&#39; : float,
+                        &#39;walltime-limit&#39; : int,
+                        &#39;num-workers&#39; : int,
+                },
+                defaults = {
+                        &#39;budget&#39; : 10, # number of samples nevergrad gets to try
+                        &#39;walltime-wait&#39; : WALLTIME_WAIT,
+                        &#39;walltime-limit&#39; : WALLTIME_LIMIT,
+                        &#39;num-workers&#39; : 1, # number of workers
+                },
+        )
+        
+        # write to global vars,
+        # because passing it all the way down to the relevant function is a hassle
+        WALLTIME_WAIT = cmds[&#39;walltime-wait&#39;]
+        WALLTIME_LIMIT = cmds[&#39;walltime-limit&#39;]
+
+        # echo settings
+        print(&#39;running with settings:&#39;)
+        print(&#39;\t{k}  \t: {v}&#39;.format(k = &#39;budget&#39;, v = cmds[&#39;budget&#39;]))
+        print(&#39;\t{k}\t: {v}&#39;.format(k = &#39;walltime-wait&#39;, v = cmds[&#39;walltime-wait&#39;]))
+        print(&#39;\t{k}\t: {v}&#39;.format(k = &#39;walltime-limit&#39;, v = cmds[&#39;walltime-limit&#39;]))
+        print(&#39;\t{k}\t: {v}&#39;.format(k = &#39;num-workers&#39;, v = cmds[&#39;num-workers&#39;]))
+
+        parametrization = setup_instr()
+        optimizer = ng.optimizers.NGOpt(
+                parametrization = parametrization,
+                budget = cmds[&#39;budget&#39;],
+                num_workers = cmds[&#39;num-workers&#39;],
+        )
+        
+        with futures.ThreadPoolExecutor(max_workers=optimizer.num_workers) as executor:
+                recc = optimizer.minimize(eval_wrapper, executor=executor, batch_mode=False)
+
+        with open(&#39;NG_out.txt&#39;, &#39;w&#39;) as f:
+                print(recc.kwargs, file = f)
+                print(recc, file = f)
+
+
+
+if __name__ == &#34;__main__&#34;:
+        run_nevergrad(sys.argv)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.create_config"><code class="name flex">
+<span>def <span class="ident">create_config</span></span>(<span>params: Dict[str, Union[float, int]], run_ID: str, cfg_dir: str, default_data: Dict[str, Union[float, int, str]] = {'RUN_ID': '000', 'CONFIG_ID': '000000000000', 'DIRNAME': 'NOT_PROCESSED', 'N_LAYER_0': 784, 'N_LAYER_1': 100, 'N_LAYER_2': 10, 'DELTA_T': 0.03, 'SIM_STEPS': 1000, 'BATCH_SIZE': 5, 'MAX_EPOCHS': 10, 'COUPLING_HIDDEN': 500.0, 'COUPLING_OUT': 500.0, 'LEARNING_RATE': 10, 'OUTPUT_SCALAR': 1.5, 'LF_HIDDEN': 1.0, 'LF_OUT': 10.0, 'NUM_SNIFFS': 1, 'USE_BIAS': 0.0, 'BETA_PHASE_2': 0.0, 'GNA': 120.0, 'GK': 36.0, 'GL': 0.3, 'ENA': 115.0, 'EK': -12.0, 'EL': 10.613}, default_order: Sequence[str] = ['RUN_ID', 'CONFIG_ID', 'DIRNAME', 'N_LAYER_0', 'N_LAYER_1', 'N_LAYER_2', 'DELTA_T', 'SIM_STEPS', 'BATCH_SIZE', 'MAX_EPOCHS', 'COUPLING_HIDDEN', 'COUPLING_OUT', 'LEARNING_RATE', 'OUTPUT_SCALAR', 'LF_HIDDEN', 'LF_OUT', 'USE_BIAS', 'BETA_PHASE_2', 'NUM_SNIFFS', 'GNA', 'GK', 'GL', 'ENA', 'EK', 'EL']) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_config(
+                params : Dict[str, Num],
+                run_ID : str,
+                cfg_dir : str,
+                default_data : ps.cn_Dict = ps.CONSTS_DEFAULT,
+                default_order : Sequence[ps.t_Key] = ps.CONSTS_DEFAULT_KEYS,
+        ) -&gt; str:
+
+        # read defaults, update with given values
+        c = deepcopy(default_data)
+        c.update(params)
+
+        c[&#39;RUN_ID&#39;] = run_ID
+
+        c[&#39;CONFIG_ID&#39;] = &#39;NULL&#39;
+        c[&#39;DIRNAME&#39;] = &#39;NULL&#39;
+
+        hexdig = md5(str(collapse_dict(c, default_order)).encode(&#39;utf-8&#39;)).hexdigest()
+        cfg_ID = str( int(hexdig, 16) % int(10**ps.LEN_ID) )
+        # print(&#39;CONFIG_ID:\t&#39; + cfg_ID)
+        c[&#39;CONFIG_ID&#39;] = cfg_ID
+        # create filename
+        fname = &#39;%s_ID%s&#39; % (c[&#39;RUN_ID&#39;], c[&#39;CONFIG_ID&#39;])
+        c[&#39;DIRNAME&#39;] = fname
+        fname = cfg_dir + fname + &#39;.txt&#39;
+
+        # convert each combo to string and save
+        with open(fname, &#39;w&#39;) as fout:
+                print(
+                        dict_to_string(c, default_data, default_order),
+                        file = fout,
+                )
+        # print(&#39;&gt; created file:\t&#39; + fname)
+
+        return cfg_ID</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.eval_parameter_set"><code class="name flex">
+<span>def <span class="ident">eval_parameter_set</span></span>(<span>params: Dict[str, Union[float, int]], run_ID: str = 'NG_CROSS', cfg_dir: str = 'psweep/config/', default_data: dict = {'RUN_ID': '000', 'CONFIG_ID': '000000000000', 'DIRNAME': 'NOT_PROCESSED', 'N_LAYER_0': 784, 'N_LAYER_1': 100, 'N_LAYER_2': 10, 'DELTA_T': 0.03, 'SIM_STEPS': 1000, 'BATCH_SIZE': 5, 'MAX_EPOCHS': 10, 'COUPLING_HIDDEN': 500.0, 'COUPLING_OUT': 500.0, 'LEARNING_RATE': 10, 'OUTPUT_SCALAR': 1.5, 'LF_HIDDEN': 1.0, 'LF_OUT': 10.0, 'NUM_SNIFFS': 1, 'USE_BIAS': 0.0, 'BETA_PHASE_2': 0.0, 'GNA': 120.0, 'GK': 36.0, 'GL': 0.3, 'ENA': 115.0, 'EK': -12.0, 'EL': 10.613}, default_order: Sequence = ['RUN_ID', 'CONFIG_ID', 'DIRNAME', 'N_LAYER_0', 'N_LAYER_1', 'N_LAYER_2', 'DELTA_T', 'SIM_STEPS', 'BATCH_SIZE', 'MAX_EPOCHS', 'COUPLING_HIDDEN', 'COUPLING_OUT', 'LEARNING_RATE', 'OUTPUT_SCALAR', 'LF_HIDDEN', 'LF_OUT', 'USE_BIAS', 'BETA_PHASE_2', 'NUM_SNIFFS', 'GNA', 'GK', 'GL', 'ENA', 'EK', 'EL'])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eval_parameter_set(
+                params : Dict[str, Num],
+                run_ID : str = &#39;NG_CROSS&#39;,
+                cfg_dir : str = &#39;psweep/config/&#39;,
+                default_data : dict = ps.CONSTS_DEFAULT,
+        default_order : Sequence = ps.CONSTS_DEFAULT_KEYS,
+        ):
+
+        # create the config file
+        cfg_ID = create_config(
+                params = params,
+                run_ID = run_ID,
+                cfg_dir = cfg_dir,
+                default_data = default_data,
+                default_order = default_order,
+        )
+
+        # run the C++ code
+        # run_on_config(
+        run_on_config_sbatch(
+                cfg_ID = cfg_ID,
+                run_ID = run_ID,
+                cfg_dir = cfg_dir,
+        )
+
+        # read the output accuracy
+#       loss = read_loss(&#39;../../psweep_data/{run_ID}_ID{cfg_ID}/&#39;.format(cfg_ID = cfg_ID, run_ID = run_ID))
+        percent = read_accuracy(&#39;../../psweep_data/{run_ID}_ID{cfg_ID}/&#39;.format(cfg_ID = cfg_ID, run_ID = run_ID))
+        return 100 - percent</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.eval_wrapper"><code class="name flex">
+<span>def <span class="ident">eval_wrapper</span></span>(<span>**kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eval_wrapper(**kwargs):
+        loss = eval_parameter_set(
+                params = kwargs,
+        )
+        return loss</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.list_to_bounding_kwargs"><code class="name flex">
+<span>def <span class="ident">list_to_bounding_kwargs</span></span>(<span>lst: List[Union[float, int]]) ‑> Dict[str, Union[float, int]]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_to_bounding_kwargs(lst : List[Num]) -&gt; Dict[str,Num]:
+        return {
+                &#39;lower&#39; : min(lst),
+                &#39;upper&#39; : max(lst)
+        }</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.read_accuracy"><code class="name flex">
+<span>def <span class="ident">read_accuracy</span></span>(<span>dirname: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_accuracy(
+                dirname : str,
+        ):
+
+#       print(&#39;&gt; reading file:\t&#39;)
+
+        i = 0
+        while not isfile(dirname + &#39;DONE.txt&#39;):
+                if i &gt; WALLTIME_LIMIT:
+                        print(&#39;\n\n\nABORTING: process took too long. returning accuracy of 0 \n%s&#39; % dirname)
+                        return 0.0
+
+                # print(&#39;waiting...\ti=\t%i&#39; % i, end = &#39;\r&#39;)
+                sleep(WALLTIME_WAIT)
+                i += 1 
+
+#       print(&#39;\n&gt; found file!&#39;)
+
+        try:
+                data = np.genfromtxt(dirname + &#39;percent0.txt&#39;)
+        except ValueError:
+                return 0.0
+        
+        accuracy = data[-1, -1]
+
+        print(&#39;&gt; dirname:\t%s\n\taccuracy:\t%s&#39; % (dirname, str(accuracy)))
+
+        return accuracy</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.read_cmd"><code class="name flex">
+<span>def <span class="ident">read_cmd</span></span>(<span>argv: List[str], alias: Dict[str, str] = {}, defaults: Dict[str, str] = {}, typecast: Dict[str, Callable[[str], Any]] = {}, to_strip: str = '-', splitchar: str = '=') ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>parses command line args</p>
+<p>splits a list of strings '&ndash;flag=val' with combined flags and args
+into a dict: <code>{'flag' : 'val'}</code> (lstrips the dashes)</p>
+<p>if flag 'flag' passed without value returns for that flag: <code>{'flag' : True}</code></p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>argv</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>input argument list</dd>
+<dt><strong><code>alias</code></strong> :&ensp;<code>Dict[str,str]</code>, optional</dt>
+<dd>aliases for shorthand of flags. Defaults to dict().</dd>
+<dt><strong><code>defaults</code></strong> :&ensp;<code>Dict[str,str]</code>, optional</dt>
+<dd>default values. Defaults to dict().</dd>
+<dt><strong><code>typecast</code></strong> :&ensp;<code>Dict[str, Callable[[str], Any]]</code>, optional</dt>
+<dd>callables to apply to the given flags (and their aliases). Defaults to dict().</dd>
+<dt><strong><code>to_strip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>this will be stripped from start of every argument. Defaults to '-'.</dd>
+<dt><strong><code>splitchar</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>separator beteen flag and value. Defaults to '='.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>KeyError</code></dt>
+<dd>if flag passed more than once (given aliases)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict[str, Any]</code></dt>
+<dd>flags mapping to their values. aliases handled through duplication of values, callables applied to all variants</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_cmd(
+                argv : List[str],
+                alias : Dict[str,str] = dict(),
+                defaults : Dict[str,str] = dict(),
+                typecast : Dict[str, Callable[[str], Any]] = dict(),
+                to_strip : str = &#39;-&#39;,
+                splitchar : str = &#39;=&#39;,
+        ) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;parses command line args
+
+        splits a list of strings &#39;--flag=val&#39; with combined flags and args
+        into a dict: `{&#39;flag&#39; : &#39;val&#39;}` (lstrips the dashes)
+
+        if flag &#39;flag&#39; passed without value returns for that flag: `{&#39;flag&#39; : True}`
+
+        Args:
+                argv (List[str]): input argument list
+                alias (Dict[str,str], optional): aliases for shorthand of flags. Defaults to dict().
+                defaults (Dict[str,str], optional): default values. Defaults to dict().
+                typecast (Dict[str, Callable[[str], Any]], optional): callables to apply to the given flags (and their aliases). Defaults to dict().
+                to_strip (str, optional): this will be stripped from start of every argument. Defaults to &#39;-&#39;.
+                splitchar (str, optional): separator beteen flag and value. Defaults to &#39;=&#39;.
+
+        Raises:
+                KeyError: if flag passed more than once (given aliases)
+
+        Returns:
+                Dict[str, Any]: flags mapping to their values. aliases handled through duplication of values, callables applied to all variants
+        &#34;&#34;&#34;
+
+        output = deepcopy(defaults)
+                
+        # read the flags
+        for x in argv:
+                x = x.lstrip(to_strip)
+                pair = x.split(splitchar,1)
+                if len(pair) &lt; 2:
+                        pair = pair + [True]
+
+                if (pair[0] not in output) or (pair[0] in defaults):
+                        output[pair[0]] = pair[1]
+                else:
+                        raise KeyError(
+                                &#39;same flag passed more than once:\t%s&#39;
+                                % (pair[0])
+                        )
+
+        # make copies for aliases
+        copied_aliases = dict()
+        for key,val in output.items():
+                if key in alias:
+                        if (alias[key] in output) and (key in defaults and output[alias[key]] != defaults[key]):
+                                raise KeyError(
+                                        &#39;same flag passed more than once (alias):\t%s,\t%s&#39;
+                                        % (key, alias[key])
+                                )
+                        else:
+                                copied_aliases[alias[key]] = val
+        output.update(copied_aliases)
+
+        # invert aliases to convert all types
+        aliases_inv : Dict[str,Set[str]] = dict()
+        for key,val in alias.items():
+                if val in aliases_inv:
+                        aliases_inv[val].add(key)
+                else:
+                        aliases_inv[val] = set((key, val))
+
+
+        # cast types
+        for key,func in typecast.items():
+                for k2 in aliases_inv[key]:
+                        if k2 in output:
+                                output[k2] = func(output[k2])
+
+        return output</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.read_loss"><code class="name flex">
+<span>def <span class="ident">read_loss</span></span>(<span>dirname: str, last_n: int = 5)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_loss(
+                dirname : str,
+                last_n : int = 5,
+        ):
+
+        # print(&#39;&gt; reading file:\t&#39;)
+
+        i = 0
+        while not isfile(dirname + &#39;DONE.txt&#39;):
+                if i &gt; WALLTIME_LIMIT:
+                        print(&#39;\n\n\nABORTING: process took too long. returning NAN loss \n%s&#39; % dirname)
+                        return float(&#39;nan&#39;)
+
+                # print(&#39;waiting...\ti=\t%i&#39; % i, end = &#39;\r&#39;)
+                sleep(WALLTIME_WAIT)
+                i += 1 
+
+        # print(&#39;\n&gt; found file!&#39;)
+
+        try:
+                data = np.genfromtxt(dirname + &#39;loss.txt&#39;, delimiter=&#39;,&#39;)
+        except ValueError:
+                return float(&#39;nan&#39;)
+
+        try:
+                data = data[:,:-1]
+        except:
+                return float(&#39;nan&#39;)
+        
+        avg_final_loss = np.average(data[-last_n:])
+
+        print(&#39;&gt; dirname:\t%s\n\tloss:\t%s&#39; % (dirname, str(avg_final_loss)))
+
+        return avg_final_loss</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.run_nevergrad"><code class="name flex">
+<span>def <span class="ident">run_nevergrad</span></span>(<span>argv: List[str])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_nevergrad(argv : List[str]):
+        global NG_BUDGET
+        global WALLTIME_WAIT
+        global WALLTIME_LIMIT
+        global NG_WORKERS
+
+        cmds = read_cmd(
+                argv,
+                alias = {
+                        &#39;b&#39; : &#39;budget&#39;,
+                        &#39;w&#39; : &#39;walltime-wait&#39;,
+                        &#39;L&#39; : &#39;walltime-limit&#39;,
+                        &#39;n&#39; : &#39;num-workers&#39;,
+                },
+                typecast = {
+                        &#39;budget&#39; : int,
+                        &#39;walltime-wait&#39; : float,
+                        &#39;walltime-limit&#39; : int,
+                        &#39;num-workers&#39; : int,
+                },
+                defaults = {
+                        &#39;budget&#39; : 10, # number of samples nevergrad gets to try
+                        &#39;walltime-wait&#39; : WALLTIME_WAIT,
+                        &#39;walltime-limit&#39; : WALLTIME_LIMIT,
+                        &#39;num-workers&#39; : 1, # number of workers
+                },
+        )
+        
+        # write to global vars,
+        # because passing it all the way down to the relevant function is a hassle
+        WALLTIME_WAIT = cmds[&#39;walltime-wait&#39;]
+        WALLTIME_LIMIT = cmds[&#39;walltime-limit&#39;]
+
+        # echo settings
+        print(&#39;running with settings:&#39;)
+        print(&#39;\t{k}  \t: {v}&#39;.format(k = &#39;budget&#39;, v = cmds[&#39;budget&#39;]))
+        print(&#39;\t{k}\t: {v}&#39;.format(k = &#39;walltime-wait&#39;, v = cmds[&#39;walltime-wait&#39;]))
+        print(&#39;\t{k}\t: {v}&#39;.format(k = &#39;walltime-limit&#39;, v = cmds[&#39;walltime-limit&#39;]))
+        print(&#39;\t{k}\t: {v}&#39;.format(k = &#39;num-workers&#39;, v = cmds[&#39;num-workers&#39;]))
+
+        parametrization = setup_instr()
+        optimizer = ng.optimizers.NGOpt(
+                parametrization = parametrization,
+                budget = cmds[&#39;budget&#39;],
+                num_workers = cmds[&#39;num-workers&#39;],
+        )
+        
+        with futures.ThreadPoolExecutor(max_workers=optimizer.num_workers) as executor:
+                recc = optimizer.minimize(eval_wrapper, executor=executor, batch_mode=False)
+
+        with open(&#39;NG_out.txt&#39;, &#39;w&#39;) as f:
+                print(recc.kwargs, file = f)
+                print(recc, file = f)</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.run_on_config_basic"><code class="name flex">
+<span>def <span class="ident">run_on_config_basic</span></span>(<span>cfg_ID: str, run_ID: str, cfg_dir: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_on_config_basic(
+                cfg_ID : str,
+                run_ID : str,
+                cfg_dir : str,
+        ):
+
+        cmd = &#34;./hh_psweep 1 {cfg_ID} {run_ID}&#34;.format(cfg_ID = cfg_ID, run_ID = run_ID)
+        print(&#39;CALLING:\t&#39; + cmd)
+        system(cmd)</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.run_on_config_sbatch"><code class="name flex">
+<span>def <span class="ident">run_on_config_sbatch</span></span>(<span>cfg_ID: str, run_ID: str, cfg_dir: str) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_on_config_sbatch(
+                cfg_ID : str,
+                run_ID : str,
+                cfg_dir : str,
+        ) -&gt; None:
+
+        cmd = &#34;sbatch --job-name=HH_&#34; + run_ID + &#34;_ID&#34; + cfg_ID + &#34; myJobIndividual.sh &#34;
+        cmd += &#34; &#34; + str(cfg_ID)
+        cmd += &#34; &#34; + str(cfg_ID)
+        cmd += &#34; &#34; + run_ID
+
+        # print(&#39;CALLING:\t&#39; + cmd)
+        system(cmd)</code></pre>
+</details>
+</dd>
+<dt id="BNBP-public.HH-SGD.sweep_nevergrad.setup_instr"><code class="name flex">
+<span>def <span class="ident">setup_instr</span></span>(<span>ranges: Dict[str, List[float]] = {'LF_OUT': [0.1, 2.0], 'LF_HIDDEN': [1.0, 20.0], 'GNA': [100.0, 140.0], 'GK': [30.0, 42.0]}, sweep_type: Dict[str, str] = {'N_LAYER_0': 'scalar', 'N_LAYER_1': 'scalar', 'N_LAYER_2': 'scalar', 'DELTA_T': 'scalar', 'SIM_STEPS': 'scalar', 'BATCH_SIZE': 'scalar', 'MAX_EPOCHS': 'scalar', 'COUPLING_HIDDEN': 'scalar', 'COUPLING_OUT': 'scalar', 'LEARNING_RATE': 'log', 'OUTPUT_SCALAR': 'scalar', 'LF_HIDDEN': 'log', 'LF_OUT': 'log', 'NUM_SNIFFS': 'scalar', 'USE_BIAS': 'scalar', 'BETA_PHASE_2': 'scalar', 'GNA': 'scalar', 'GK': 'scalar', 'GL': 'scalar', 'ENA': 'scalar', 'EK': 'scalar', 'EL': 'scalar'}) ‑> nevergrad.parametrization.container.Instrumentation</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup_instr(
+                ranges : Dict[str,List[float]] = ps.CONSTS_RANGES,
+                sweep_type : Dict[str,str] = ps.CONSTS_SWEEP_TYPE,
+        ) -&gt; ng.p.Instrumentation:
+
+        # init dict
+        out_kwargs = dict()
+        
+        # each key is the name of a variable we want to pass to ng
+        for key in ranges:
+                # ngFunc takes a lower and upper bound,
+                # and returns an object that is to be passed to ng.p.Instrumentation
+                ngFunc = SWEEP_TYPE_TO_NG_FUNC[sweep_type[key]]
+                # give ngFunc those bounds, and store in dict
+                kw_temp = list_to_bounding_kwargs(ranges[key])
+                out_kwargs[key] = ngFunc(**kw_temp)
+        
+        # pass that dict of objects to the constructor
+        return ng.p.Instrumentation(**out_kwargs)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="BNBP-public.HH-SGD" href="index.html">BNBP-public.HH-SGD</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.create_config" href="#BNBP-public.HH-SGD.sweep_nevergrad.create_config">create_config</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.eval_parameter_set" href="#BNBP-public.HH-SGD.sweep_nevergrad.eval_parameter_set">eval_parameter_set</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.eval_wrapper" href="#BNBP-public.HH-SGD.sweep_nevergrad.eval_wrapper">eval_wrapper</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.list_to_bounding_kwargs" href="#BNBP-public.HH-SGD.sweep_nevergrad.list_to_bounding_kwargs">list_to_bounding_kwargs</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.read_accuracy" href="#BNBP-public.HH-SGD.sweep_nevergrad.read_accuracy">read_accuracy</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.read_cmd" href="#BNBP-public.HH-SGD.sweep_nevergrad.read_cmd">read_cmd</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.read_loss" href="#BNBP-public.HH-SGD.sweep_nevergrad.read_loss">read_loss</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.run_nevergrad" href="#BNBP-public.HH-SGD.sweep_nevergrad.run_nevergrad">run_nevergrad</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.run_on_config_basic" href="#BNBP-public.HH-SGD.sweep_nevergrad.run_on_config_basic">run_on_config_basic</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.run_on_config_sbatch" href="#BNBP-public.HH-SGD.sweep_nevergrad.run_on_config_sbatch">run_on_config_sbatch</a></code></li>
+<li><code><a title="BNBP-public.HH-SGD.sweep_nevergrad.setup_instr" href="#BNBP-public.HH-SGD.sweep_nevergrad.setup_instr">setup_instr</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
