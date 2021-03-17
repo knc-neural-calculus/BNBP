@@ -3,15 +3,13 @@ from typing import *
 from copy import deepcopy
 from itertools import product
 
-sys.path.append("..")
-sys.path.append("HH-SGD")
+if __name__ == '__main__':
+	sys.path.insert(0, "..")
+else:
+	sys.path.insert(0, "HH-SGD")
 
 from psweep.psweep import *
 
-t_Key = str
-t_Val = Union[float,int,str]
-cn_Dict = Dict[t_Key,t_Val]
-cn_Dict_R = Dict[t_Key,List[t_Val]]
 
 def collapse_dict(
         data : cn_Dict,
@@ -197,15 +195,15 @@ def save_all_combos(
 
 
 
-def main(argv = sys.argv):
+def main(run_ID : str, data : Dict[t_Key, Iterable[t_Val]] = CONSTS_RANGES):
     combos = generate_all_index_combos(
-        data = CONSTS_RANGES,
+        data = data,
         default_data = CONSTS_DEFAULT,
         default_order = CONSTS_DEFAULT_KEYS,
     )
 
     save_all_combos(
-        argv[1],
+        run_ID = run_ID,
         combos = combos,
         default_data = CONSTS_DEFAULT,
         default_order = CONSTS_DEFAULT_KEYS,

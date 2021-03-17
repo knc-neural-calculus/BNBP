@@ -3,6 +3,8 @@ import sys
 import numpy as np
 import math
 
+# DOCUMENT: psweep_loss file (might be deprecated)
+
 def cull_nans(datas):
     it = 0
     for data, filename, culled in datas:

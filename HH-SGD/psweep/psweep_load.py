@@ -1,3 +1,27 @@
+"""psweep_load.py - reads runs matching `run_ID` and saves them to a pandas dataframe (runs `read_and_save()`)
+
+## usage
+    psweep_load.py <flags>
+
+## `read_and_save()`
+    ### Parameters:
+     - `run_ID : str`
+       will look for run folders matching `{run_ID}_{n}`
+       (defaults to `''`)
+     - `datadir : str`
+       folder in which to look for the data
+       (defaults to `'../../../psweep_data/'`)
+     - `file_save : Optional[str]`
+       where to pickle the pandas dataframe into. if no value given, set to `'data_{run_ID}.df'`
+       (defaults to `None`)
+     - `rem_cols : List[str]`
+       columns to remove
+       (defaults to `None`)
+
+    ### Modifies
+     - saves the dataframe as a pickle file into `file_save`
+"""
+
 from os import listdir
 from os.path import isdir, join
 import os
@@ -9,21 +33,42 @@ import numpy as np
 import pandas as pd
 from typing import *
 
-def fcomp(a,b,delta = 1e-5):
-	return abs(a-b) < delta
+if __name__ == '__main__':
+	sys.path.insert(0, "..")
+else:
+	sys.path.insert(0, "HH-SGD")
 
-sys.path.append("..")
-sys.path.append("HH-SGD")
+
 from psweep.psweep import *
 
 
+def fcomp(a,b,delta = 1e-5):
+	return abs(a-b) < delta
 
 def read_loss(
-		filename,
-		mode = 'abs',
-		first_n = 5,
-		last_n = 5,
-	):
+		filename : str,
+		mode : LossMode = 'abs',
+		first_n : int = 5,
+		last_n : int = 5,
+	) -> float:
+	"""read the final loss from a training sample
+
+	### Parameters:
+	 - `filename : str`   
+	 - `mode : LossMode`   
+	   one of 'abs', 'rel'. if 'abs', returns the average loss for the `last_n` timesteps. if 'rel', returns the ratio between the average loss between `last_n` and `first_n` timesteps
+	   (defaults to `'abs'`)
+	 - `first_n : int`   
+	   only used if loss mode is 'rel'
+	   (defaults to `5`)
+	 - `last_n : int`   
+	   steps to average the loss over
+	   (defaults to `5`)
+	
+	### Returns:
+	 - `float` 
+	   computed average loss from `filename`
+	"""
 		
 	try:
 		data = np.genfromtxt(filename, delimiter=',')
@@ -57,12 +102,27 @@ def read_percent(filename) -> float:
 
 
 def read_config(
-		filename,
-		keys_map = CONFIG_KEYS_MAP,
-		default = CONSTS_DEFAULT,
-	):
+		filename : str,
+		keys_map : Dict[str,str] = CONFIG_KEYS_MAP,
+		default : Dict[str, Any] = CONSTS_DEFAULT,
+	) -> Dict[str, Any]:
+	"""reads config from `filename`
 	
-	cfg = {}
+	### Parameters:
+	 - `filename : str`   
+	 - `keys_map : Dict[str,str]`   
+	   [unused]
+	   (defaults to `psweep.CONFIG_KEYS_MAP`)
+	 - `default : Dict[str, Any]`   
+	   used for casting types
+	   (defaults to `psweep.CONSTS_DEFAULT`)
+	
+	### Returns:
+	 - `Dict[str, Any]` 
+	   dict containing params
+	"""
+	
+	cfg : Dict[str, Any] = {}
 
 	# read the actual config file into a dict
 	with open(filename, 'r') as fin:
@@ -74,12 +134,12 @@ def read_config(
 
 			cfg[key] = val
 
-#	# map keys if needed
-#	if keys_map is not None:
-#		cfg = {
-#			keys_map[k] : cfg[k]
-#			for k in cfg
-#		}
+	#	# map keys if needed
+	#	if keys_map is not None:
+	#		cfg = {
+	#			keys_map[k] : cfg[k]
+	#			for k in cfg
+	#		}
 
 	# change type
 	if default is not None:
@@ -98,21 +158,54 @@ def read_config(
 
 
 
-def read_single_folder(d, keys_map = CONFIG_KEYS_MAP) -> Dict[str, Any]:
-	data = read_config(d + 'config.txt', keys_map = keys_map)
+def read_single_folder(directory : str, keys_map : Dict[str,str] = CONFIG_KEYS_MAP) -> Dict[str, Any]:
+	"""reads all loss types for a given run
+	### Parameters:
+	 - `directory : str`   
+	   directory where the run is
+	 - `keys_map : Dict[str,str]`   
+	   passed to `read_config`
+	   (defaults to `CONFIG_KEYS_MAP`)
+	
+	### Returns:
+	 - `Dict[str, Any]` 
+	   [description]
+	"""
+	data = read_config(directory + 'config.txt', keys_map = keys_map)
 
 	for c in LOSS_TYPES:
-		data[c] = read_loss(d + 'loss.txt', LOSS_TYPES[c])
+		data[c] = read_loss(directory + 'loss.txt', LOSS_TYPES[c])
 
 	if ENABLE_TESTING_DATA:
-		data['TEST_ACCURACY'] = read_percent(d + 'percent0.txt')
+		data['TEST_ACCURACY'] = read_percent(directory + 'percent0.txt')
 	
 	# print('\t%s' % str(data))		
 	return data
 
 
 
-def read_all_data(datadir : str = '../../../psweep_data/', rem_cols : List[str] = None, run_ID : str = ''):
+def read_all_data(
+		datadir : str = '../../../psweep_data/', 
+		rem_cols : List[str] = None, 
+		run_ID : str = '',
+	) -> pd.DataFrame:
+	"""gets data from many different runs (matching `run_ID`) and puts them into a dataframe
+	
+	### Parameters:
+	 - `datadir : str`   
+	   looks in this directory for directories of the form '{run_ID}_*', passes them to `read_single_folder`
+	   (defaults to `'../../../psweep_data/'`)
+	 - `rem_cols : List[str]`   
+	   columns to remove from the dataframe
+	   (defaults to `None`)
+	 - `run_ID : str`   
+	   used to match directories
+	   (defaults to `''`)
+	
+	### Returns:
+	 - `pd.DataFrame` 
+	   each row in the table is a run, with a column for each hyperparameter, as well as the loss and accuracy
+	"""
 	# get directories
 	# dirnames = [join(datadir, f) + '/' for f in listdir(datadir) if isdir(join(datadir, f)) and f[0] == sys.argv[1][0]]
 	dirnames = [ x + '/' for x in glob.glob(datadir + run_ID + '_*') if isdir(x) ]
@@ -152,7 +245,7 @@ def read_all_data(datadir : str = '../../../psweep_data/', rem_cols : List[str] 
 def read_and_save(run_ID = '', datadir = '../../../psweep_data/', file_save : Optional[str] = None, rem_cols : List[str] = None) -> pd.DataFrame:
 	"""reads runs matching `run_ID` and saves them to a pandas dataframe
 	
-	# Parameters:
+	### Parameters:
 	 - `run_ID : str`   
 	   will look for run folders matching `{run_ID}_{n}`
 	   (defaults to `''`)
@@ -166,7 +259,7 @@ def read_and_save(run_ID = '', datadir = '../../../psweep_data/', file_save : Op
 	   columns to remove
 	   (defaults to `None`)
 
-	# Modifies
+	### Modifies
 	 - saves the dataframe as a pickle file into `file_save`
 	"""
 	if file_save is None:
@@ -176,7 +269,20 @@ def read_and_save(run_ID = '', datadir = '../../../psweep_data/', file_save : Op
 	df.to_pickle(file_save)
 
 
-def main(argv = sys.argv):
+if __name__ == "__main__":
+	import fire
+	fire.Fire(read_and_save)
+
+
+
+
+
+
+
+
+
+
+def main_OLD(argv = sys.argv):
 	datadir = None
 
 	if len(argv) > 1:
@@ -194,8 +300,3 @@ def main(argv = sys.argv):
 	print('filename=\t%s\ndatadir=\t%s\nrun_ID=\t%s' % (filename, datadir, run_ID))
 
 	read_and_save(filename, datadir, rem_cols = None, run_ID = run_ID)
-
-if __name__ == "__main__":
-	import fire
-	fire.Fire(read_and_save)
-	
