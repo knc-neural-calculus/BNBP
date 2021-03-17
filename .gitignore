@@ -1,4 +1,4 @@
-HH-SGD/psweep/data/**
-HH-SGD/mnist/*-ubyte
+HH_SGD/psweep/data/**
+HH_SGD/mnist/*-ubyte
 **/*.pyc
 # html/**
