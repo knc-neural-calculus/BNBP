@@ -6,7 +6,7 @@ from itertools import product
 if __name__ == '__main__':
 	sys.path.insert(0, "..")
 else:
-	sys.path.insert(0, "HH-SGD")
+	sys.path.insert(0, "BNBP")
 
 from psweep.psweep import *
 

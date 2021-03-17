@@ -186,4 +186,4 @@ TYPE_MAP = {
 
 
 if __name__ == '__main__':
-	rase Exception('psweep.py is not meant to be run!')
+	raise Exception('psweep.py is not meant to be run!')

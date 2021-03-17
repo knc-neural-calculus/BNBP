@@ -40,8 +40,9 @@ Requirements:
 - f
 
 # generating documentation
+## python
 uses pdoc3, install using `pip install pdco3`  
-to build documentation, run `pdoc --html . -o docs`
+to build documentation, run `pdoc --html --force . -o docs`
 
 
 
