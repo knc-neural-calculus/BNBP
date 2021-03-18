@@ -51,6 +51,7 @@ def cull_variance(datas, variance_tol):
             it += 1
 
 if __name__ == '__main__':
+	raise NotImplementedError('unclear what this file does, removing functionality for now')
 	if len(sys.argv) > 1:
 		dirnames = sys.argv[1:]
 	else:

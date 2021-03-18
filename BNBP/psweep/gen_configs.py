@@ -1,3 +1,8 @@
+"""generates configuration files
+
+should only take a `run_ID` - passing range data thru command line not reccomended, you should modify psweep.py
+"""
+
 import sys
 from typing import *
 from copy import deepcopy
@@ -211,7 +216,8 @@ def main(run_ID : str, data : Dict[t_Key, Iterable[t_Val]] = CONSTS_RANGES):
 
 
 if __name__ == '__main__':
-    main()
+    import fire
+    fire.Fire(main)
 
 
 

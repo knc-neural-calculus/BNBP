@@ -48,11 +48,10 @@ Compiling usually only takes a matter of seconds or a few minutes.
 - to get help about a specific function/command within a module, do
   ```python file_name.py COMMAND -- --help```
   (the standalone `--` acts as a separator)
-- f
 
 # generating documentation
 ## python
-uses pdoc3, install using `pip install pdco3`  
+uses pdoc3, install using `pip install pdoc3`  
 to build documentation, run `pdoc --html --force . -o docs`
 
 
@@ -71,6 +70,16 @@ to build documentation, run `pdoc --html --force . -o docs`
   - [ ] expected output
   - [ ] expected runtime
 - [ ] general instructions for use
+
+# 2021-03-18 01:26 todo:
+- requirements.txt for pip and python things
+- list of where Eigen and whatever other C++ packages we use
+- runtime estimates (done?)
+- explain structure of the output directories (!)
+- plotting scripts are already documented, refer to them in the readme
+- instructions for the launching scripts
+- liscence
+- link to repo
 
 
 
