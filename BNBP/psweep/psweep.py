@@ -1,15 +1,14 @@
+"""contains configuration data and some methods for processing it"""
+
 from typing import *
 import numpy as np
 import math
 
 LEN_ID = 12
 
-t_Key = str
-t_Val = Union[float,int,str]
-cn_Dict = Dict[t_Key,t_Val]
-cn_Dict_R = Dict[t_Key,List[t_Val]]
+# UGLY: typenames defined here are not very nice
 
-CONSTS_DEFAULT_KEYS = [
+t_Key = Literal[
 	'RUN_ID',
 	'CONFIG_ID',
 	'DIRNAME',
@@ -32,15 +31,23 @@ CONSTS_DEFAULT_KEYS = [
 	'LF_OUT',
 	'USE_BIAS',
 	'BETA_PHASE_2',
-        'NUM_SNIFFS',
+	'NUM_SNIFFS',
 
 	'GNA',
 	'GK',
 	'GL',
 	'ENA',
 	'EK',
-	'EL'
+	'EL',
 ]
+t_Val = Union[float,int,str]
+cn_Dict = Dict[t_Key,t_Val]
+cn_Dict_R = Dict[t_Key,List[t_Val]]
+
+LossMode = Literal['abs', 'rel']
+
+CONSTS_DEFAULT_KEYS = get_args(t_Key)
+
 
 CONSTS_DEFAULT_KEYS_META = [
 	'RUN_ID',
@@ -176,3 +183,7 @@ TYPE_MAP = {
 		for k in LOSS_TYPES
 	}
 }
+
+
+if __name__ == '__main__':
+	raise Exception('psweep.py is not meant to be run!')
