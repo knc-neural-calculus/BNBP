@@ -7,7 +7,8 @@ Requirements:
  - the `make` build tool
  - gcc or any other C++ compiler
  - openMP (included with gcc)
- - Eigen (included in repo)
+ - Eigen (included in repo) ## TODO
+ - Boost (not included in repo)
 
 ## Parameter sweeping
 Searches the hyperparameter space
@@ -27,6 +28,16 @@ Requirements:
  - pandas
  - matplotlib
  - python-fire
+ 
+# Timing
+
+## Runtime Estimates
+
+Plotting the figures should only take a matter of seconds. To run a full training session on the MNIST dataset can take a while, up to an hour, but running on a subset can take about 10 minutes. 
+
+## Compile Time
+
+Compiling usually only takes a matter of seconds or a few minutes. 
 
 
 
@@ -43,7 +54,6 @@ Requirements:
 ## python
 uses pdoc3, install using `pip install pdco3`  
 to build documentation, run `pdoc --html --force . -o docs`
-
 
 
 
