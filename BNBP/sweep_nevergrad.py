@@ -15,6 +15,8 @@ from psweep.gen_configs import dict_to_string,collapse_dict
 
 Num = Union[float,int]
 
+
+# NOTE: these global vars are changed thru command line args
 # interval (seconds) between checking that the training is done
 WALLTIME_WAIT : float = 1.0
 # maximum steps of `WALLTIME_WAIT` before aborting
@@ -26,85 +28,6 @@ SWEEP_TYPE_TO_NG_FUNC = {
 	'scalar' : ng.p.Scalar,
 	'log' : ng.p.Log,
 }
-
-
-
-def read_cmd(
-		argv : List[str],
-		alias : Dict[str,str] = dict(),
-		defaults : Dict[str,str] = dict(),
-		typecast : Dict[str, Callable[[str], Any]] = dict(),
-		to_strip : str = '-',
-		splitchar : str = '=',
-	) -> Dict[str, Any]:
-	"""parses command line args
-
-	splits a list of strings '--flag=val' with combined flags and args
-	into a dict: `{'flag' : 'val'}` (lstrips the dashes)
-
-	if flag 'flag' passed without value returns for that flag: `{'flag' : True}`
-
-	Args:
-		argv (List[str]): input argument list
-		alias (Dict[str,str], optional): aliases for shorthand of flags. Defaults to dict().
-		defaults (Dict[str,str], optional): default values. Defaults to dict().
-		typecast (Dict[str, Callable[[str], Any]], optional): callables to apply to the given flags (and their aliases). Defaults to dict().
-		to_strip (str, optional): this will be stripped from start of every argument. Defaults to '-'.
-		splitchar (str, optional): separator beteen flag and value. Defaults to '='.
-
-	Raises:
-		KeyError: if flag passed more than once (given aliases)
-
-	Returns:
-		Dict[str, Any]: flags mapping to their values. aliases handled through duplication of values, callables applied to all variants
-	"""
-
-	output = deepcopy(defaults)
-		
-	# read the flags
-	for x in argv:
-		x = x.lstrip(to_strip)
-		pair = x.split(splitchar,1)
-		if len(pair) < 2:
-			pair = pair + [True]
-
-		if (pair[0] not in output) or (pair[0] in defaults):
-			output[pair[0]] = pair[1]
-		else:
-			raise KeyError(
-				'same flag passed more than once:\t%s'
-				% (pair[0])
-			)
-
-	# make copies for aliases
-	copied_aliases = dict()
-	for key,val in output.items():
-		if key in alias:
-			if (alias[key] in output) and (key in defaults and output[alias[key]] != defaults[key]):
-				raise KeyError(
-					'same flag passed more than once (alias):\t%s,\t%s'
-					% (key, alias[key])
-				)
-			else:
-				copied_aliases[alias[key]] = val
-	output.update(copied_aliases)
-
-	# invert aliases to convert all types
-	aliases_inv : Dict[str,Set[str]] = dict()
-	for key,val in alias.items():
-		if val in aliases_inv:
-			aliases_inv[val].add(key)
-		else:
-			aliases_inv[val] = set((key, val))
-
-
-	# cast types
-	for key,func in typecast.items():
-		for k2 in aliases_inv[key]:
-			if k2 in output:
-				output[k2] = func(output[k2])
-
-	return output
 
 
 
@@ -306,7 +229,87 @@ def eval_wrapper(**kwargs):
 	return loss
 
 
-def run_nevergrad(argv : List[str]):
+
+
+def read_cmd(
+		argv : List[str],
+		alias : Dict[str,str] = dict(),
+		defaults : Dict[str,str] = dict(),
+		typecast : Dict[str, Callable[[str], Any]] = dict(),
+		to_strip : str = '-',
+		splitchar : str = '=',
+	) -> Dict[str, Any]:
+	"""parses command line args
+
+	splits a list of strings '--flag=val' with combined flags and args
+	into a dict: `{'flag' : 'val'}` (lstrips the dashes)
+
+	if flag 'flag' passed without value returns for that flag: `{'flag' : True}`
+
+	Args:
+		argv (List[str]): input argument list
+		alias (Dict[str,str], optional): aliases for shorthand of flags. Defaults to dict().
+		defaults (Dict[str,str], optional): default values. Defaults to dict().
+		typecast (Dict[str, Callable[[str], Any]], optional): callables to apply to the given flags (and their aliases). Defaults to dict().
+		to_strip (str, optional): this will be stripped from start of every argument. Defaults to '-'.
+		splitchar (str, optional): separator beteen flag and value. Defaults to '='.
+
+	Raises:
+		KeyError: if flag passed more than once (given aliases)
+
+	Returns:
+		Dict[str, Any]: flags mapping to their values. aliases handled through duplication of values, callables applied to all variants
+	"""
+
+	output = deepcopy(defaults)
+		
+	# read the flags
+	for x in argv:
+		x = x.lstrip(to_strip)
+		pair = x.split(splitchar,1)
+		if len(pair) < 2:
+			pair = pair + [True]
+
+		if (pair[0] not in output) or (pair[0] in defaults):
+			output[pair[0]] = pair[1]
+		else:
+			raise KeyError(
+				'same flag passed more than once:\t%s'
+				% (pair[0])
+			)
+
+	# make copies for aliases
+	copied_aliases = dict()
+	for key,val in output.items():
+		if key in alias:
+			if (alias[key] in output) and (key in defaults and output[alias[key]] != defaults[key]):
+				raise KeyError(
+					'same flag passed more than once (alias):\t%s,\t%s'
+					% (key, alias[key])
+				)
+			else:
+				copied_aliases[alias[key]] = val
+	output.update(copied_aliases)
+
+	# invert aliases to convert all types
+	aliases_inv : Dict[str,Set[str]] = dict()
+	for key,val in alias.items():
+		if val in aliases_inv:
+			aliases_inv[val].add(key)
+		else:
+			aliases_inv[val] = set((key, val))
+
+
+	# cast types
+	for key,func in typecast.items():
+		for k2 in aliases_inv[key]:
+			if k2 in output:
+				output[k2] = func(output[k2])
+
+	return output
+
+
+def run_nevergrad_old(argv : List[str]):
 	global NG_BUDGET
 	global WALLTIME_WAIT
 	global WALLTIME_LIMIT
@@ -362,5 +365,75 @@ def run_nevergrad(argv : List[str]):
 
 
 
+def run_nevergrad(
+		ng_budget : int, 
+		walltime_wait : float = WALLTIME_WAIT, 
+		walltime_limit : int = WALLTIME_LIMIT, 
+		ng_workers : int = 1,
+		file_out : str = 'NG_out.txt',
+		ranges : Dict[str,List[float]] = ps.CONSTS_RANGES,
+		sweep_type : Dict[str,str] = ps.CONSTS_SWEEP_TYPE,
+	):
+	"""tries to optimize hyperparameters using nevergrad
+	
+	### Parameters:
+	 - `ng_budget : int`   
+	   budget of how many hyperparameter sets to try
+	 - `walltime_wait : float`   
+	   interval (seconds) between checking that the training is done
+	   (defaults to `WALLTIME_WAIT`)
+	 - `walltime_limit : int`   
+	   maximum steps of `WALLTIME_WAIT` before aborting
+	   (defaults to `WALLTIME_LIMIT`)
+	 - `ng_workers : int`   
+	   number of nevergrad workers
+	   (defaults to `1`)
+	 - `file_out : str`   
+	   where to save the nevergrad output
+	   (defaults to `'NG_out.txt'`)
+	 - `ranges : Dict[str,List[float]]`   
+	   ranges for which hyperparameters to check (psweep/psweep.py)
+	   (defaults to `ps.CONSTS_RANGES`)
+	 - `sweep_type : Dict[str,str]`   
+	   type to sweep (logarithmic, scalar, int, etc)
+	   (defaults to `ps.CONSTS_SWEEP_TYPE`)
+	"""
+	global NG_BUDGET
+	global WALLTIME_WAIT
+	global WALLTIME_LIMIT
+	global NG_WORKERS
+	
+	# write to global vars,
+	# because passing it all the way down to the relevant function is a hassle
+	WALLTIME_WAIT = walltime_wait
+	WALLTIME_LIMIT = walltime_limit
+
+	# echo settings
+	print('running with settings:')
+	print('\t{k}  \t: {v}'.format(k = 'budget', v = ng_budget))
+	print('\t{k}\t: {v}'.format(k = 'walltime-wait', v = walltime_wait))
+	print('\t{k}\t: {v}'.format(k = 'walltime-limit', v = walltime_limit))
+	print('\t{k}\t: {v}'.format(k = 'num-workers', v = ng_workers))
+
+	parametrization = setup_instr(
+		ranges = ranges,
+		sweep_type = sweep_type,
+	)
+
+	optimizer = ng.optimizers.NGOpt(
+		parametrization = parametrization,
+		budget = ng_budget,
+		num_workers = ng_workers,
+	)
+	
+	with futures.ThreadPoolExecutor(max_workers=optimizer.num_workers) as executor:
+		recc = optimizer.minimize(eval_wrapper, executor=executor, batch_mode=False)
+
+	with open(file_out, 'w') as f:
+		print(recc.kwargs, file = f)
+		print(recc, file = f)
+
+
 if __name__ == "__main__":
-	run_nevergrad(sys.argv)
+	import fire
+	fire.Fire(run_nevergrad)
