@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>BNBP.BNBP.psweep.psweep_load API documentation</title>
+<meta name="description" content="psweep_load.py - reads runs matching `run_ID` and saves them to a pandas dataframe (runs `read_and_save()`) …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>BNBP.BNBP.psweep.psweep_load</code></h1>
+</header>
+<section id="section-intro">
+<p>psweep_load.py - reads runs matching <code>run_ID</code> and saves them to a pandas dataframe (runs <code><a title="BNBP.BNBP.psweep.psweep_load.read_and_save" href="#BNBP.BNBP.psweep.psweep_load.read_and_save">read_and_save()</a></code>)</p>
+<h2 id="usage">usage</h2>
+<pre><code>psweep_load.py &lt;flags&gt;
+</code></pre>
+<h2 id="read_and_save"><code><a title="BNBP.BNBP.psweep.psweep_load.read_and_save" href="#BNBP.BNBP.psweep.psweep_load.read_and_save">read_and_save()</a></code></h2>
+<pre><code>### Parameters:
+ - `run_ID : str`
+   will look for run folders matching `{run_ID}_{n}`
+   (defaults to `''`)
+ - `datadir : str`
+   folder in which to look for the data
+   (defaults to `'../../../psweep_data/'`)
+ - `file_save : Optional[str]`
+   where to pickle the pandas dataframe into. if no value given, set to `'data_{run_ID}.df'`
+   (defaults to &lt;code&gt;None&lt;/code&gt;)
+ - `rem_cols : List[str]`
+   columns to remove
+   (defaults to &lt;code&gt;None&lt;/code&gt;)
+
+### Modifies
+ - saves the dataframe as a pickle file into &lt;code&gt;file\_save&lt;/code&gt;
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;psweep_load.py - reads runs matching `run_ID` and saves them to a pandas dataframe (runs `read_and_save()`)
+
+## usage
+    psweep_load.py &lt;flags&gt;
+
+## `read_and_save()`
+    ### Parameters:
+     - `run_ID : str`
+       will look for run folders matching `{run_ID}_{n}`
+       (defaults to `&#39;&#39;`)
+     - `datadir : str`
+       folder in which to look for the data
+       (defaults to `&#39;../../../psweep_data/&#39;`)
+     - `file_save : Optional[str]`
+       where to pickle the pandas dataframe into. if no value given, set to `&#39;data_{run_ID}.df&#39;`
+       (defaults to `None`)
+     - `rem_cols : List[str]`
+       columns to remove
+       (defaults to `None`)
+
+    ### Modifies
+     - saves the dataframe as a pickle file into `file_save`
+&#34;&#34;&#34;
+
+from os import listdir
+from os.path import isdir, join
+import os
+import sys
+import math
+import glob
+
+import numpy as np
+import pandas as pd
+from typing import *
+
+if __name__ == &#39;__main__&#39;:
+        sys.path.insert(0, &#34;..&#34;)
+else:
+        sys.path.insert(0, &#34;HH-SGD&#34;)
+
+
+from psweep.psweep import *
+
+
+def fcomp(a,b,delta = 1e-5):
+        return abs(a-b) &lt; delta
+
+def read_loss(
+                filename : str,
+                mode : LossMode = &#39;abs&#39;,
+                first_n : int = 5,
+                last_n : int = 5,
+        ) -&gt; float:
+        &#34;&#34;&#34;read the final loss from a training sample
+
+        ### Parameters:
+         - `filename : str`   
+         - `mode : LossMode`   
+           one of &#39;abs&#39;, &#39;rel&#39;. if &#39;abs&#39;, returns the average loss for the `last_n` timesteps. if &#39;rel&#39;, returns the ratio between the average loss between `last_n` and `first_n` timesteps
+           (defaults to `&#39;abs&#39;`)
+         - `first_n : int`   
+           only used if loss mode is &#39;rel&#39;
+           (defaults to `5`)
+         - `last_n : int`   
+           steps to average the loss over
+           (defaults to `5`)
+        
+        ### Returns:
+         - `float` 
+           computed average loss from `filename`
+        &#34;&#34;&#34;
+                
+        try:
+                data = np.genfromtxt(filename, delimiter=&#39;,&#39;)
+        except ValueError:
+                return float(&#39;nan&#39;)
+
+        try:
+                data = data[:,:-1]
+        except:
+                return float(&#39;nan&#39;)
+        
+        avg_final_loss = np.average(data[-last_n:])
+
+        if mode == &#39;abs&#39;:
+                return avg_final_loss
+        elif mode == &#39;rel&#39;:
+                # loss_first = np.average(np.amin(np.average(data[:first_n], axis = 1)))
+                loss_first = np.average(data[:first_n])
+                return avg_final_loss / loss_first
+
+
+def read_percent(filename) -&gt; float:
+        try:
+                pair = open(filename, &#34;r&#34;).readlines()[-1]
+                return float(pair.split(&#39;\t&#39;)[-1])
+                # tab_idx = pair.find(&#39;\t&#39;)
+                # return float(pair.substr(pair+1))
+        except:
+                return np.nan
+        
+
+
+def read_config(
+                filename : str,
+                keys_map : Dict[str,str] = CONFIG_KEYS_MAP,
+                default : Dict[str, Any] = CONSTS_DEFAULT,
+        ) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;reads config from `filename`
+        
+        ### Parameters:
+         - `filename : str`   
+         - `keys_map : Dict[str,str]`   
+           [unused]
+           (defaults to `psweep.CONFIG_KEYS_MAP`)
+         - `default : Dict[str, Any]`   
+           used for casting types
+           (defaults to `psweep.CONSTS_DEFAULT`)
+        
+        ### Returns:
+         - `Dict[str, Any]` 
+           dict containing params
+        &#34;&#34;&#34;
+        
+        cfg : Dict[str, Any] = {}
+
+        # read the actual config file into a dict
+        with open(filename, &#39;r&#39;) as fin:
+                for line in fin:
+                        # expected line format:
+                        # &lt;key&gt; = &lt;value&gt;
+                        # should work w/ any whitespace
+                        key, _, val = line.split()
+
+                        cfg[key] = val
+
+        #       # map keys if needed
+        #       if keys_map is not None:
+        #               cfg = {
+        #                       keys_map[k] : cfg[k]
+        #                       for k in cfg
+        #               }
+
+        # change type
+        if default is not None:
+                cfg = {
+                        k : type(default[k])(cfg[k])
+                        for k in cfg            
+                }
+
+        # read ID from filename
+        # cfg[&#39;CONFIG_ID&#39;] = filename[
+        #       - ( LEN_ID + 1 + len(&#39;config.txt&#39;) ) 
+        #       : - ( len(&#39;config.txt&#39;) + 1 )
+        # ]
+
+        return cfg
+
+
+
+def read_single_folder(directory : str, keys_map : Dict[str,str] = CONFIG_KEYS_MAP) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;reads all loss types for a given run
+        ### Parameters:
+         - `directory : str`   
+           directory where the run is
+         - `keys_map : Dict[str,str]`   
+           passed to `read_config`
+           (defaults to `CONFIG_KEYS_MAP`)
+        
+        ### Returns:
+         - `Dict[str, Any]` 
+           [description]
+        &#34;&#34;&#34;
+        data = read_config(directory + &#39;config.txt&#39;, keys_map = keys_map)
+
+        for c in LOSS_TYPES:
+                data[c] = read_loss(directory + &#39;loss.txt&#39;, LOSS_TYPES[c])
+
+        if ENABLE_TESTING_DATA:
+                data[&#39;TEST_ACCURACY&#39;] = read_percent(directory + &#39;percent0.txt&#39;)
+        
+        # print(&#39;\t%s&#39; % str(data))             
+        return data
+
+
+
+def read_all_data(
+                datadir : str = &#39;../../../psweep_data/&#39;, 
+                rem_cols : List[str] = None, 
+                run_ID : str = &#39;&#39;,
+        ) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;gets data from many different runs (matching `run_ID`) and puts them into a dataframe
+        
+        ### Parameters:
+         - `datadir : str`   
+           looks in this directory for directories of the form &#39;{run_ID}_*&#39;, passes them to `read_single_folder`
+           (defaults to `&#39;../../../psweep_data/&#39;`)
+         - `rem_cols : List[str]`   
+           columns to remove from the dataframe
+           (defaults to `None`)
+         - `run_ID : str`   
+           used to match directories
+           (defaults to `&#39;&#39;`)
+        
+        ### Returns:
+         - `pd.DataFrame` 
+           each row in the table is a run, with a column for each hyperparameter, as well as the loss and accuracy
+        &#34;&#34;&#34;
+        # get directories
+        # dirnames = [join(datadir, f) + &#39;/&#39; for f in listdir(datadir) if isdir(join(datadir, f)) and f[0] == sys.argv[1][0]]
+        dirnames = [ x + &#39;/&#39; for x in glob.glob(datadir + run_ID + &#39;_*&#39;) if isdir(x) ]
+        
+        n_total_dir = len(dirnames)
+        print(&#39;&gt; directories found:\t%d\n&#39; % n_total_dir)
+
+        # get columns
+        cols = CONSTS_DEFAULT_KEYS + [ s for s in LOSS_TYPES ]
+        if ENABLE_TESTING_DATA:
+                cols = cols + [&#39;TEST_ACCURACY&#39;]
+
+        # read in data
+        data = []
+        i = 0
+        for d in dirnames:
+                print(&#39;\t read: \t%d\t/\t%d&#39; % (i,n_total_dir), end=&#39;\r&#39;)
+                data.append(read_single_folder(d))
+                i = i + 1
+
+        print(&#39;\n\n&gt; directories read in:\t%d&#39; % len(data))
+
+        # bulk write to dataframe
+        # df = pd.DataFrame( columns = cols )
+        # df = df.append(data, ignore_index = True)
+        # df = df.append(data)
+        df = pd.DataFrame(data)
+
+        # remove some columns with junk
+        if rem_cols is not None:
+                for r in rem_cols:
+                        del df[r]
+
+        return df       
+
+
+def read_and_save(run_ID = &#39;&#39;, datadir = &#39;../../../psweep_data/&#39;, file_save : Optional[str] = None, rem_cols : List[str] = None) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;reads runs matching `run_ID` and saves them to a pandas dataframe
+        
+        ### Parameters:
+         - `run_ID : str`   
+           will look for run folders matching `{run_ID}_{n}`
+           (defaults to `&#39;&#39;`)
+         - `datadir : str`   
+           folder in which to look for the data
+           (defaults to `&#39;../../../psweep_data/&#39;`)
+         - `file_save : Optional[str]`   
+           where to pickle the pandas dataframe into. if no value given, set to `&#39;data_{run_ID}.df&#39;`
+           (defaults to `None`)
+         - `rem_cols : List[str]`   
+           columns to remove
+           (defaults to `None`)
+
+        ### Modifies
+         - saves the dataframe as a pickle file into `file_save`
+        &#34;&#34;&#34;
+        if file_save is None:
+                file_save = f&#39;data_{run_ID}.df&#39;
+
+        df = read_all_data(datadir, rem_cols, run_ID)
+        df.to_pickle(file_save)
+
+
+if __name__ == &#34;__main__&#34;:
+        import fire
+        fire.Fire(read_and_save)
+
+
+
+
+
+
+
+
+
+
+def main_OLD(argv = sys.argv):
+        datadir = None
+
+        if len(argv) &gt; 1:
+                run_ID = argv[1]
+        else:
+                run_ID = &#39;&#39;
+
+        if len(argv) &gt; 2:
+                datadir = argv[2]
+        else:
+                datadir = &#39;../../../psweep_data/&#39;
+
+        filename = &#39;data_%s.df&#39; % run_ID
+        
+        print(&#39;filename=\t%s\ndatadir=\t%s\nrun_ID=\t%s&#39; % (filename, datadir, run_ID))
+
+        read_and_save(filename, datadir, rem_cols = None, run_ID = run_ID)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="BNBP.BNBP.psweep.psweep_load.fcomp"><code class="name flex">
+<span>def <span class="ident">fcomp</span></span>(<span>a, b, delta=1e-05)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fcomp(a,b,delta = 1e-5):
+        return abs(a-b) &lt; delta</code></pre>
+</details>
+</dd>
+<dt id="BNBP.BNBP.psweep.psweep_load.main_OLD"><code class="name flex">
+<span>def <span class="ident">main_OLD</span></span>(<span>argv=['C:\\Program Files\\Python38\\Scripts\\pdoc', '--html', '--force', '.', '-o', 'docs'])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main_OLD(argv = sys.argv):
+        datadir = None
+
+        if len(argv) &gt; 1:
+                run_ID = argv[1]
+        else:
+                run_ID = &#39;&#39;
+
+        if len(argv) &gt; 2:
+                datadir = argv[2]
+        else:
+                datadir = &#39;../../../psweep_data/&#39;
+
+        filename = &#39;data_%s.df&#39; % run_ID
+        
+        print(&#39;filename=\t%s\ndatadir=\t%s\nrun_ID=\t%s&#39; % (filename, datadir, run_ID))
+
+        read_and_save(filename, datadir, rem_cols = None, run_ID = run_ID)</code></pre>
+</details>
+</dd>
+<dt id="BNBP.BNBP.psweep.psweep_load.read_all_data"><code class="name flex">
+<span>def <span class="ident">read_all_data</span></span>(<span>datadir: str = '../../../psweep_data/', rem_cols: List[str] = None, run_ID: str = '') ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<div class="desc"><p>gets data from many different runs (matching <code>run_ID</code>) and puts them into a dataframe</p>
+<h3 id="parameters">Parameters:</h3>
+<ul>
+<li><code>datadir : str</code> <br>
+looks in this directory for directories of the form '{run_ID}_*', passes them to <code><a title="BNBP.BNBP.psweep.psweep_load.read_single_folder" href="#BNBP.BNBP.psweep.psweep_load.read_single_folder">read_single_folder()</a></code>
+(defaults to <code>'../../../psweep_data/'</code>)</li>
+<li><code>rem_cols : List[str]</code> <br>
+columns to remove from the dataframe
+(defaults to <code>None</code>)</li>
+<li><code>run_ID : str</code> <br>
+used to match directories
+(defaults to <code>''</code>)</li>
+</ul>
+<h3 id="returns">Returns:</h3>
+<ul>
+<li><code>pd.DataFrame</code>
+each row in the table is a run, with a column for each hyperparameter, as well as the loss and accuracy</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_all_data(
+                datadir : str = &#39;../../../psweep_data/&#39;, 
+                rem_cols : List[str] = None, 
+                run_ID : str = &#39;&#39;,
+        ) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;gets data from many different runs (matching `run_ID`) and puts them into a dataframe
+        
+        ### Parameters:
+         - `datadir : str`   
+           looks in this directory for directories of the form &#39;{run_ID}_*&#39;, passes them to `read_single_folder`
+           (defaults to `&#39;../../../psweep_data/&#39;`)
+         - `rem_cols : List[str]`   
+           columns to remove from the dataframe
+           (defaults to `None`)
+         - `run_ID : str`   
+           used to match directories
+           (defaults to `&#39;&#39;`)
+        
+        ### Returns:
+         - `pd.DataFrame` 
+           each row in the table is a run, with a column for each hyperparameter, as well as the loss and accuracy
+        &#34;&#34;&#34;
+        # get directories
+        # dirnames = [join(datadir, f) + &#39;/&#39; for f in listdir(datadir) if isdir(join(datadir, f)) and f[0] == sys.argv[1][0]]
+        dirnames = [ x + &#39;/&#39; for x in glob.glob(datadir + run_ID + &#39;_*&#39;) if isdir(x) ]
+        
+        n_total_dir = len(dirnames)
+        print(&#39;&gt; directories found:\t%d\n&#39; % n_total_dir)
+
+        # get columns
+        cols = CONSTS_DEFAULT_KEYS + [ s for s in LOSS_TYPES ]
+        if ENABLE_TESTING_DATA:
+                cols = cols + [&#39;TEST_ACCURACY&#39;]
+
+        # read in data
+        data = []
+        i = 0
+        for d in dirnames:
+                print(&#39;\t read: \t%d\t/\t%d&#39; % (i,n_total_dir), end=&#39;\r&#39;)
+                data.append(read_single_folder(d))
+                i = i + 1
+
+        print(&#39;\n\n&gt; directories read in:\t%d&#39; % len(data))
+
+        # bulk write to dataframe
+        # df = pd.DataFrame( columns = cols )
+        # df = df.append(data, ignore_index = True)
+        # df = df.append(data)
+        df = pd.DataFrame(data)
+
+        # remove some columns with junk
+        if rem_cols is not None:
+                for r in rem_cols:
+                        del df[r]
+
+        return df       </code></pre>
+</details>
+</dd>
+<dt id="BNBP.BNBP.psweep.psweep_load.read_and_save"><code class="name flex">
+<span>def <span class="ident">read_and_save</span></span>(<span>run_ID='', datadir='../../../psweep_data/', file_save: Union[str, NoneType] = None, rem_cols: List[str] = None) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<div class="desc"><p>reads runs matching <code>run_ID</code> and saves them to a pandas dataframe</p>
+<h3 id="parameters">Parameters:</h3>
+<ul>
+<li><code>run_ID : str</code> <br>
+will look for run folders matching <code>{run_ID}_{n}</code>
+(defaults to <code>''</code>)</li>
+<li><code>datadir : str</code> <br>
+folder in which to look for the data
+(defaults to <code>'../../../psweep_data/'</code>)</li>
+<li><code>file_save : Optional[str]</code> <br>
+where to pickle the pandas dataframe into. if no value given, set to <code>'data_{run_ID}.df'</code>
+(defaults to <code>None</code>)</li>
+<li><code>rem_cols : List[str]</code> <br>
+columns to remove
+(defaults to <code>None</code>)</li>
+</ul>
+<h3 id="modifies">Modifies</h3>
+<ul>
+<li>saves the dataframe as a pickle file into <code>file_save</code></li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_and_save(run_ID = &#39;&#39;, datadir = &#39;../../../psweep_data/&#39;, file_save : Optional[str] = None, rem_cols : List[str] = None) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;reads runs matching `run_ID` and saves them to a pandas dataframe
+        
+        ### Parameters:
+         - `run_ID : str`   
+           will look for run folders matching `{run_ID}_{n}`
+           (defaults to `&#39;&#39;`)
+         - `datadir : str`   
+           folder in which to look for the data
+           (defaults to `&#39;../../../psweep_data/&#39;`)
+         - `file_save : Optional[str]`   
+           where to pickle the pandas dataframe into. if no value given, set to `&#39;data_{run_ID}.df&#39;`
+           (defaults to `None`)
+         - `rem_cols : List[str]`   
+           columns to remove
+           (defaults to `None`)
+
+        ### Modifies
+         - saves the dataframe as a pickle file into `file_save`
+        &#34;&#34;&#34;
+        if file_save is None:
+                file_save = f&#39;data_{run_ID}.df&#39;
+
+        df = read_all_data(datadir, rem_cols, run_ID)
+        df.to_pickle(file_save)</code></pre>
+</details>
+</dd>
+<dt id="BNBP.BNBP.psweep.psweep_load.read_config"><code class="name flex">
+<span>def <span class="ident">read_config</span></span>(<span>filename: str, keys_map: Dict[str, str] = {'a_hidden': 'COUPLING_HIDDEN', 'a_out': 'COUPLING_OUT', 'm_n_in': 'N_LAYER_0', 'm_n_hidden': 'N_LAYER_1', 'm_n_out': 'N_LAYER_2', 'm_dt': 'DELTA_T', 'sim_time_ms': 'SIM_STEPS', 'learning_rate': 'LEARNING_RATE', 'lateral_factor': 'LATERAL_FACTOR'}, default: Dict[str, Any] = {'RUN_ID': '000', 'CONFIG_ID': '000000000000', 'DIRNAME': 'NOT_PROCESSED', 'N_LAYER_0': 784, 'N_LAYER_1': 100, 'N_LAYER_2': 10, 'DELTA_T': 0.03, 'SIM_STEPS': 1000, 'BATCH_SIZE': 5, 'MAX_EPOCHS': 10, 'COUPLING_HIDDEN': 500.0, 'COUPLING_OUT': 500.0, 'LEARNING_RATE': 10, 'OUTPUT_SCALAR': 1.5, 'LF_HIDDEN': 1.0, 'LF_OUT': 10.0, 'NUM_SNIFFS': 1, 'USE_BIAS': 0.0, 'BETA_PHASE_2': 0.0, 'GNA': 120.0, 'GK': 36.0, 'GL': 0.3, 'ENA': 115.0, 'EK': -12.0, 'EL': 10.613}) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>reads config from <code>filename</code></p>
+<h3 id="parameters">Parameters:</h3>
+<ul>
+<li><code>filename : str</code>
+</li>
+<li><code>keys_map : Dict[str,str]</code> <br>
+[unused]
+(defaults to <code>psweep.CONFIG_KEYS_MAP</code>)</li>
+<li><code>default : Dict[str, Any]</code> <br>
+used for casting types
+(defaults to <code>psweep.CONSTS_DEFAULT</code>)</li>
+</ul>
+<h3 id="returns">Returns:</h3>
+<ul>
+<li><code>Dict[str, Any]</code>
+dict containing params</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_config(
+                filename : str,
+                keys_map : Dict[str,str] = CONFIG_KEYS_MAP,
+                default : Dict[str, Any] = CONSTS_DEFAULT,
+        ) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;reads config from `filename`
+        
+        ### Parameters:
+         - `filename : str`   
+         - `keys_map : Dict[str,str]`   
+           [unused]
+           (defaults to `psweep.CONFIG_KEYS_MAP`)
+         - `default : Dict[str, Any]`   
+           used for casting types
+           (defaults to `psweep.CONSTS_DEFAULT`)
+        
+        ### Returns:
+         - `Dict[str, Any]` 
+           dict containing params
+        &#34;&#34;&#34;
+        
+        cfg : Dict[str, Any] = {}
+
+        # read the actual config file into a dict
+        with open(filename, &#39;r&#39;) as fin:
+                for line in fin:
+                        # expected line format:
+                        # &lt;key&gt; = &lt;value&gt;
+                        # should work w/ any whitespace
+                        key, _, val = line.split()
+
+                        cfg[key] = val
+
+        #       # map keys if needed
+        #       if keys_map is not None:
+        #               cfg = {
+        #                       keys_map[k] : cfg[k]
+        #                       for k in cfg
+        #               }
+
+        # change type
+        if default is not None:
+                cfg = {
+                        k : type(default[k])(cfg[k])
+                        for k in cfg            
+                }
+
+        # read ID from filename
+        # cfg[&#39;CONFIG_ID&#39;] = filename[
+        #       - ( LEN_ID + 1 + len(&#39;config.txt&#39;) ) 
+        #       : - ( len(&#39;config.txt&#39;) + 1 )
+        # ]
+
+        return cfg</code></pre>
+</details>
+</dd>
+<dt id="BNBP.BNBP.psweep.psweep_load.read_loss"><code class="name flex">
+<span>def <span class="ident">read_loss</span></span>(<span>filename: str, mode: Literal['abs', 'rel'] = 'abs', first_n: int = 5, last_n: int = 5) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>read the final loss from a training sample</p>
+<h3 id="parameters">Parameters:</h3>
+<ul>
+<li><code>filename : str</code>
+</li>
+<li><code>mode : LossMode</code> <br>
+one of 'abs', 'rel'. if 'abs', returns the average loss for the <code>last_n</code> timesteps. if 'rel', returns the ratio between the average loss between <code>last_n</code> and <code>first_n</code> timesteps
+(defaults to <code>'abs'</code>)</li>
+<li><code>first_n : int</code> <br>
+only used if loss mode is 'rel'
+(defaults to <code>5</code>)</li>
+<li><code>last_n : int</code> <br>
+steps to average the loss over
+(defaults to <code>5</code>)</li>
+</ul>
+<h3 id="returns">Returns:</h3>
+<ul>
+<li><code>float</code>
+computed average loss from <code>filename</code></li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_loss(
+                filename : str,
+                mode : LossMode = &#39;abs&#39;,
+                first_n : int = 5,
+                last_n : int = 5,
+        ) -&gt; float:
+        &#34;&#34;&#34;read the final loss from a training sample
+
+        ### Parameters:
+         - `filename : str`   
+         - `mode : LossMode`   
+           one of &#39;abs&#39;, &#39;rel&#39;. if &#39;abs&#39;, returns the average loss for the `last_n` timesteps. if &#39;rel&#39;, returns the ratio between the average loss between `last_n` and `first_n` timesteps
+           (defaults to `&#39;abs&#39;`)
+         - `first_n : int`   
+           only used if loss mode is &#39;rel&#39;
+           (defaults to `5`)
+         - `last_n : int`   
+           steps to average the loss over
+           (defaults to `5`)
+        
+        ### Returns:
+         - `float` 
+           computed average loss from `filename`
+        &#34;&#34;&#34;
+                
+        try:
+                data = np.genfromtxt(filename, delimiter=&#39;,&#39;)
+        except ValueError:
+                return float(&#39;nan&#39;)
+
+        try:
+                data = data[:,:-1]
+        except:
+                return float(&#39;nan&#39;)
+        
+        avg_final_loss = np.average(data[-last_n:])
+
+        if mode == &#39;abs&#39;:
+                return avg_final_loss
+        elif mode == &#39;rel&#39;:
+                # loss_first = np.average(np.amin(np.average(data[:first_n], axis = 1)))
+                loss_first = np.average(data[:first_n])
+                return avg_final_loss / loss_first</code></pre>
+</details>
+</dd>
+<dt id="BNBP.BNBP.psweep.psweep_load.read_percent"><code class="name flex">
+<span>def <span class="ident">read_percent</span></span>(<span>filename) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_percent(filename) -&gt; float:
+        try:
+                pair = open(filename, &#34;r&#34;).readlines()[-1]
+                return float(pair.split(&#39;\t&#39;)[-1])
+                # tab_idx = pair.find(&#39;\t&#39;)
+                # return float(pair.substr(pair+1))
+        except:
+                return np.nan</code></pre>
+</details>
+</dd>
+<dt id="BNBP.BNBP.psweep.psweep_load.read_single_folder"><code class="name flex">
+<span>def <span class="ident">read_single_folder</span></span>(<span>directory: str, keys_map: Dict[str, str] = {'a_hidden': 'COUPLING_HIDDEN', 'a_out': 'COUPLING_OUT', 'm_n_in': 'N_LAYER_0', 'm_n_hidden': 'N_LAYER_1', 'm_n_out': 'N_LAYER_2', 'm_dt': 'DELTA_T', 'sim_time_ms': 'SIM_STEPS', 'learning_rate': 'LEARNING_RATE', 'lateral_factor': 'LATERAL_FACTOR'}) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>reads all loss types for a given run</p>
+<h3 id="parameters">Parameters:</h3>
+<ul>
+<li><code>directory : str</code> <br>
+directory where the run is</li>
+<li><code>keys_map : Dict[str,str]</code> <br>
+passed to <code><a title="BNBP.BNBP.psweep.psweep_load.read_config" href="#BNBP.BNBP.psweep.psweep_load.read_config">read_config()</a></code>
+(defaults to <code>CONFIG_KEYS_MAP</code>)</li>
+</ul>
+<h3 id="returns">Returns:</h3>
+<ul>
+<li><code>Dict[str, Any]</code>
+[description]</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_single_folder(directory : str, keys_map : Dict[str,str] = CONFIG_KEYS_MAP) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;reads all loss types for a given run
+        ### Parameters:
+         - `directory : str`   
+           directory where the run is
+         - `keys_map : Dict[str,str]`   
+           passed to `read_config`
+           (defaults to `CONFIG_KEYS_MAP`)
+        
+        ### Returns:
+         - `Dict[str, Any]` 
+           [description]
+        &#34;&#34;&#34;
+        data = read_config(directory + &#39;config.txt&#39;, keys_map = keys_map)
+
+        for c in LOSS_TYPES:
+                data[c] = read_loss(directory + &#39;loss.txt&#39;, LOSS_TYPES[c])
+
+        if ENABLE_TESTING_DATA:
+                data[&#39;TEST_ACCURACY&#39;] = read_percent(directory + &#39;percent0.txt&#39;)
+        
+        # print(&#39;\t%s&#39; % str(data))             
+        return data</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#usage">usage</a></li>
+<li><a href="#read_and_save">read_and_save()</a></li>
+</ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="BNBP.BNBP.psweep" href="index.html">BNBP.BNBP.psweep</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.fcomp" href="#BNBP.BNBP.psweep.psweep_load.fcomp">fcomp</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.main_OLD" href="#BNBP.BNBP.psweep.psweep_load.main_OLD">main_OLD</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.read_all_data" href="#BNBP.BNBP.psweep.psweep_load.read_all_data">read_all_data</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.read_and_save" href="#BNBP.BNBP.psweep.psweep_load.read_and_save">read_and_save</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.read_config" href="#BNBP.BNBP.psweep.psweep_load.read_config">read_config</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.read_loss" href="#BNBP.BNBP.psweep.psweep_load.read_loss">read_loss</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.read_percent" href="#BNBP.BNBP.psweep.psweep_load.read_percent">read_percent</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.psweep_load.read_single_folder" href="#BNBP.BNBP.psweep.psweep_load.read_single_folder">read_single_folder</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

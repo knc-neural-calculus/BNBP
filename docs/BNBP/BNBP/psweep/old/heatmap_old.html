@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>BNBP API documentation</title>
+<title>BNBP.BNBP.psweep.old.heatmap_old API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,24 +19,57 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>BNBP</code></h1>
+<h1 class="title">Module <code>BNBP.BNBP.psweep.old.heatmap_old</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd
+
+a_hidden_vals = [100, 200, 300]
+a_out_vals = [50, 60, 500]
+
+data = pd.DataFrame(np.array([[0.1, 0.2, 0.3], [0.0, 1.0, 0.5], [np.nan, 0.3, 0.8]]))
+
+ylabels = a_hidden_vals
+xlabels = a_out_vals
+
+fig, ax = plt.subplots()
+im = ax.imshow(data.to_numpy())
+
+# We want to show all ticks...
+ax.set_xticks(np.arange(len(a_hidden_vals)))
+ax.set_yticks(np.arange(len(a_out_vals)))
+# ... and label them with the respective list entries
+ax.set_xticklabels(a_hidden_vals)
+ax.set_yticklabels(a_out_vals)
+
+# Rotate the tick labels and set their alignment.
+plt.setp(ax.get_xticklabels(), rotation=45, ha=&#34;right&#34;,
+         rotation_mode=&#34;anchor&#34;)
+
+# Loop over data dimensions and create text annotations.
+for i in range(len(a_hidden_vals)):
+    for j in range(len(a_out_vals)):
+        text = ax.text(j, i, data.to_numpy()[i, j],
+                       ha=&#34;center&#34;, va=&#34;center&#34;, color=&#34;w&#34;)
+
+b, t = plt.ylim() # discover the values for bottom and top
+b += 0.5 # Add 0.5 to the bottom
+t -= 0.5 # Subtract 0.5 from the top
+plt.ylim(b, t) # update the ylim(bottom, top) values
+
+ax.set_title(&#34;LABEL HERE&#34;)
+fig.tight_layout()
+plt.savefig(&#39;heatmap.png&#39;)</code></pre>
+</details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="BNBP.BNBP" href="BNBP/index.html">BNBP.BNBP</a></code></dt>
-<dd>
-<div class="desc"><p>BNBP
-modules related to running the Biological Network Backpropagation (BNBP) algorithm, as well as performing parameter sweeps</p></div>
-</dd>
-<dt><code class="name"><a title="BNBP.plotting" href="plotting/index.html">BNBP.plotting</a></code></dt>
-<dd>
-<div class="desc"><p>BNBP plotting
-scripts for generating figures</p></div>
-</dd>
-</dl>
 </section>
 <section>
 </section>
@@ -51,10 +84,9 @@ scripts for generating figures</p></div>
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="BNBP.BNBP" href="BNBP/index.html">BNBP.BNBP</a></code></li>
-<li><code><a title="BNBP.plotting" href="plotting/index.html">BNBP.plotting</a></code></li>
+<li><code><a title="BNBP.BNBP.psweep.old" href="index.html">BNBP.BNBP.psweep.old</a></code></li>
 </ul>
 </li>
 </ul>
