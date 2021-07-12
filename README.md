@@ -55,7 +55,6 @@ uses pdoc3, install using `pip install pdoc3`
 to build documentation, run `pdoc --html --force . -o docs`
 
 
-
 # NEED:
 - [ ] small demo
 - [ ] requirements
